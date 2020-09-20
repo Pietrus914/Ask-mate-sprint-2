@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Question List</title>
+</head>
+<body>
+    <h1>Question List</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                {% for i in range(headers|length) %}
+                    <th>
+                        {{ headers[i] }}
+                        <a href="{{ url_for("question_page", order_by=story_keys[i], order_direction="asc") }}">&#8679</a>
+                        <a href="{{ url_for("question_page", order_by=story_keys[i], order_direction="desc") }}">&#8681</a>
+                    </th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for question in questions %}
+                <tr>
+                    {% for key in story_keys %}
+                        <td>
+                            {% if key == "message" %}
+                                {{ question[key][0:50] }}
+                            {% elif key == "title" %}
+                                <a href="{{url_for("display_question", question_id=question["id"]) }}">{{question[key]}}</a>
+                            {% elif key == "submission_time" %}
+                                {{ display_time(question[key]) }}
+                            {% else %}
+                                {{ question[key] }}
+                            {% endif %}
+
+                        </td>
+                    {% endfor %}
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+    </table>
+    <br>
+    <a href="{{url_for("add_question_get") }}"><button type="button">Add Question</button></a>
+</body>
+</html>

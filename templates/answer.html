@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add answer</title>
+</head>
+<body>
+
+    <h2>Answer</h2>
+        <p><b>QUESTION:</b> {{ question.title }}</p>
+        <p>{{ question.message }}</p>
+
+    <h3>Add new answer</h3>
+        <form method="POST" action="{{ url_for("add_answer_post", question_id=question['id']) }}" enctype="multipart/form-data">
+            <label for="message">Answer:</label>
+            <textarea name="message" id="message">{{ answer["message"] }} </textarea>
+            <p>add an image from disk...or paste the link to the image</p>
+            <p><input type="file" name="file" accept=".jpg,.png"></p>
+            <label for="image">IMG:</label>
+            <input type="url" name="image" id="image" placeholder="https://example.com" pattern="https://.*" }}">
+            <br>
+            <br>
+            <input type="submit" value="Save answer">
+        </form>
+</body>
+</html>
