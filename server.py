@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, redirect, request, send_from_directory
-import data_handler, connection
+import data_handler, connection, data_manager
 import os
 
 app = Flask(__name__)
@@ -72,22 +72,18 @@ def add_question_get():
 @app.route("/add/post", methods=["POST"])
 def add_question_post():
     new_question = dict(request.form)
-    questions = connection.read_csv("sample_data/question.csv")
-
-    new_question["id"] = data_handler.get_new_id(questions)
-    new_question["submission_time"] = data_handler.get_current_timestamp()
-    new_question["view_number"] = 0
-    new_question["vote_number"] = 0
+    new_question_list = list(new_question.values())
+    new_question_list.insert(0, data_handler.get_current_date_time())
+    file_name = new_question_list[-1]
 
     uploaded_file = request.files['file']
     if uploaded_file.filename != '':
         uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
-        new_question["image"] = os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename)
-    
-    questions.append(new_question)
-    connection.write_csv("sample_data/question.csv", questions)
+        file_name = os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename)
 
-    return redirect(url_for("display_question", question_id=new_question["id"]))
+    data_manager.add_question(tuple(new_question_list))
+    question_id = data_manager.get_question_id()
+    return redirect(url_for("display_question", question_id=question_id))
 
 
 @app.route("/question/<int:question_id>/edit")

@@ -136,6 +136,9 @@ def get_current_timestamp():
     now = datetime.datetime.now()
     return int(datetime.datetime.timestamp(now))
 
+'''function that returns current data & time'''
+def get_current_date_time():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 '''upadtes answers votes'''
 def update_votes(items,item_id,post_result):
