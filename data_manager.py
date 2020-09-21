@@ -23,9 +23,6 @@ def get_questions(cursor: RealDictCursor, limit: (None, int)) -> list:  # all qu
     return cursor.fetchall()
 
 
-print(get_questions(5))
-
-
 @database_common.connection_handler
 def get_question_by_id(cursor: RealDictCursor, question_id: int) -> list:
     query = f"""
@@ -49,22 +46,23 @@ def get_answers_by_question_id(cursor: RealDictCursor, question_id: int) -> list
 
 
 @database_common.connection_handler
-def add_question(cursor: RealDictCursor, new_question: tuple):
+def add_question(cursor: RealDictCursor, new_question: tuple) -> dict:
     query = f"""
-        INSERT INTO question (submission_time, title, message, image)  
+        INSERT INTO question (title, message, image, submission_time)
         VALUES {new_question}
+        RETURNING id
         """
     cursor.execute(query)
-    cursor.close()
+    return cursor.fetchone()
 
 
-# SELECT * FROM Table ORDER BY ID DESC LIMIT 1
 
-@database_common.connection_handler
-def get_question_id(cursor: RealDictCursor) -> list:
-    query = f"""
-        SELECT MAX(id)
-        FROM question
-        """
-    cursor.execute(query)
-    return cursor.fetchone().values()
+#
+# @database_common.connection_handler
+# def get_question_id(cursor: RealDictCursor) -> list:
+#     query = f"""
+#         SELECT MAX(id)
+#         FROM question
+#         """
+#     cursor.execute(query)
+#     return cursor.fetchone().values()

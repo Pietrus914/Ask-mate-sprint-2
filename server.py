@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, redirect, request, send_from_directory
-import data_handler, connection, data_manager
+import data_handler, connection, data_manager, util
 import os
 
 app = Flask(__name__)
@@ -72,17 +72,14 @@ def add_question_get():
 @app.route("/add/post", methods=["POST"])
 def add_question_post():
     new_question = dict(request.form)
-    new_question_list = list(new_question.values())
-    new_question_list.insert(0, data_handler.get_current_date_time())
-    file_name = new_question_list[-1]
+    new_question['submission_time'] = util.get_current_date_time()
 
     uploaded_file = request.files['file']
     if uploaded_file.filename != '':
         uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
-        file_name = os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename)
+        new_question['image'] = os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename)
 
-    data_manager.add_question(tuple(new_question_list))
-    question_id = data_manager.get_question_id()
+    question_id = data_manager.add_question(tuple(new_question.values())).get('id')
     return redirect(url_for("display_question", question_id=question_id))
 
 
