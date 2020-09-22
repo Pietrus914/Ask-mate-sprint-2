@@ -76,6 +76,18 @@ def update_question(cursor: RealDictCursor, edited_question: dict):
         """
     cursor.execute(query)
 
+
+@database_common.connection_handler
+def views_updated(cursor: RealDictCursor, question_id):
+    query= f"""
+        UPDATE question
+        SET view_number = view_number + 1
+        WHERE id = {question_id}"""
+    cursor.execute(query)
+    return
+
+
+
 #
 # @database_common.connection_handler
 # def get_question_id(cursor: RealDictCursor) -> list:

@@ -54,10 +54,23 @@ app.jinja_env.globals.update(get_filename=get_filename)
 @app.route("/question/<question_id>")
 def display_question(question_id):
     if request.referrer != request.url:
-        data_handler.views_updated(question_id)
-    question = data_handler.prepare_question_for_display(question_id)
-    answers = data_handler.prepare_answers_for_display(question_id)
+        data_manager.views_updated(question_id)
+
+    question = data_manager.get_question_by_id(question_id)
+    answers = data_manager.get_answers_by_question_id(question_id)
+
     answers_headers = ["Votes' number", "Answer", "Submission time"]
+
+
+
+
+
+
+    # if request.referrer != request.url:
+    #     data_handler.views_updated(question_id)
+    # question = data_handler.prepare_question_for_display(question_id)
+    # answers = data_handler.prepare_answers_for_display(question_id)
+    # answers_headers = ["Votes' number", "Answer", "Submission time"]
     # picture = os.path.split(question["image"])[1]
 
     return render_template("question.html", question=question, answers=answers, answers_headers=answers_headers)
