@@ -6,6 +6,12 @@ app = Flask(__name__)
 app.config['UPLOAD_PATH'] = 'uploads'
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024  # maksymalna wielkosc uploadowanego obrazu
 
+'''function to use when user can upload file'''
+def swap_image(uploaded_file):
+    if uploaded_file.filename != '':
+        uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
+        return os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename) # question['image'] = ...
+
 
 @app.route("/")
 def main_page():
@@ -75,19 +81,15 @@ def add_question_post():
     new_question['submission_time'] = util.get_current_date_time()
 
     uploaded_file = request.files['file']
-    if uploaded_file.filename != '':
-        uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
-        new_question['image'] = os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename)
+    new_question['image'] = swap_image(uploaded_file)
 
-    question_id = data_manager.add_question(tuple(new_question.values())).get('id')
+    question_id = data_manager.add_question(new_question).get('id')
     return redirect(url_for("display_question", question_id=question_id))
 
 
 @app.route("/question/<int:question_id>/edit")
 def edit_question_get(question_id):
-    questions = connection.read_csv("sample_data/question.csv")
-    question = data_handler.get_item_by_id(questions, str(question_id))
-
+    question = data_manager.get_question_by_id(question_id)
     if question is None:
         return redirect(url_for("display_question", question_id=question_id))
     else:
@@ -99,12 +101,9 @@ def edit_question_post(question_id):
     edited_question = dict(request.form)
 
     uploaded_file = request.files['file']
-    if uploaded_file.filename != '':
-        uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
-        edited_question["image"] = os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename)
+    edited_question['image'] = swap_image(uploaded_file)
 
-    questions = data_handler.update_question(edited_question)
-    connection.write_csv("sample_data/question.csv", questions)
+    data_manager.update_question(edited_question)
 
     return redirect(url_for("display_question", question_id=question_id))
 
