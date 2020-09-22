@@ -7,6 +7,40 @@
 <body>
     <h1>Question Forum</h1>
 
+    <h3>Last Posts</h3>
+
+    <table border="1">
+        <thead>
+            <tr>
+                {% for i in range(headers|length) %}
+                    <th>
+                        {{ headers[i] }}
+                    </th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for question in questions %}
+                <tr>
+                    {% for key in story_keys %}
+                        <td>
+                            {% if key == "message" %}
+                                {{ question[key][0:50] }}
+                            {% elif key == "title" %}
+                                <a href="{{url_for("display_question", question_id=question["id"]) }}">{{question[key]}}</a>
+                            {% else %}
+                                {{ question[key] }}
+                            {% endif %}
+
+                        </td>
+                    {% endfor %}
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+    </table>
+    <br>
     <a href="{{url_for("question_page") }}"><button type="button">Go To Question List</button></a>
 </body>
 </html>

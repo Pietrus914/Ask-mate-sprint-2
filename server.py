@@ -9,7 +9,10 @@ app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024  # maksymalna wielkosc uploadowan
 
 @app.route("/")
 def main_page():
-    return render_template("index.html")
+    headers = ["Title", "Message", "Submission Time", "Views", "Votes"]
+    story_keys = ["title", "message", "submission_time", "view_number", "vote_number"]
+    questions = data_manager.get_questions(5)
+    return render_template("index.html", headers=headers, questions=questions, story_keys=story_keys)
 
 
 @app.route("/list")

@@ -17,6 +17,7 @@ def get_questions(cursor: RealDictCursor, limit: (None, int)) -> list:  # all qu
         query = f"""
                 SELECT *
                 FROM question
+                ORDER BY submission_time
                 LIMIT {limit}
                 """
     cursor.execute(query)
