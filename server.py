@@ -15,17 +15,19 @@ def swap_image(uploaded_file):
 
 @app.route("/")
 def main_page():
-    return render_template("index.html")
+    headers = ["Title", "Message", "Submission Time", "Views", "Votes"]
+    story_keys = ["title", "message", "submission_time", "view_number", "vote_number"]
+    questions = data_manager.get_questions(5)
+    return render_template("index.html", headers=headers, questions=questions, story_keys=story_keys)
 
 
 @app.route("/list")
 def question_page():
     headers = ["Title", "Message", "Submission Time", "Views", "Votes"]
     story_keys = ["title", "message", "submission_time", "view_number", "vote_number"]
-    questions = connection.read_csv("sample_data/question.csv")
+    questions = data_manager.get_questions(None)
     if len(request.args) != 0:
-        questions = data_handler.sorting_questions(questions, request.args.get("order_by"),
-                                                   request.args.get("order_direction"))
+        questions = data_manager.get_questions_by_order(request.args.get("order_by"), request.args.get("order_direction"))
     return render_template("question_list.html", headers=headers, questions=questions, story_keys=story_keys)
 
 

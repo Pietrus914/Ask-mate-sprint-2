@@ -17,8 +17,20 @@ def get_questions(cursor: RealDictCursor, limit: (None, int)) -> list:  # all qu
         query = f"""
                 SELECT *
                 FROM question
+                ORDER BY submission_time
                 LIMIT {limit}
                 """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_questions_by_order(cursor: RealDictCursor, order: str, direct: str):
+    query = f"""
+            SELECT *
+            FROM question
+            ORDER BY {order} {direct}
+            """
     cursor.execute(query)
     return cursor.fetchall()
 
