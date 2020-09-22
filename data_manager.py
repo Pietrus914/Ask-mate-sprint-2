@@ -85,9 +85,6 @@ def views_updated(cursor: RealDictCursor, question_id):
         WHERE id = {question_id}"""
     cursor.execute(query)
     return
-
-
-
 #
 # @database_common.connection_handler
 # def get_question_id(cursor: RealDictCursor) -> list:
