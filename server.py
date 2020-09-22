@@ -61,11 +61,6 @@ def display_question(question_id):
 
     answers_headers = ["Votes' number", "Answer", "Submission time"]
 
-
-
-
-
-
     # if request.referrer != request.url:
     #     data_handler.views_updated(question_id)
     # question = data_handler.prepare_question_for_display(question_id)
