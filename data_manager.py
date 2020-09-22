@@ -63,8 +63,6 @@ def update_question(cursor: RealDictCursor, edited_question: dict):
         WHERE id = {edited_question['id']}
         """
     cursor.execute(query)
-    # return cursor.fetchone()
-
 
 #
 # @database_common.connection_handler

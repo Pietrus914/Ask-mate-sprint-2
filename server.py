@@ -6,6 +6,12 @@ app = Flask(__name__)
 app.config['UPLOAD_PATH'] = 'uploads'
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024  # maksymalna wielkosc uploadowanego obrazu
 
+'''function to use when user can upload file'''
+def swap_image(uploaded_file):
+    if uploaded_file.filename != '':
+        uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
+        return os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename) # question['image'] = ...
+
 
 @app.route("/")
 def main_page():
@@ -22,12 +28,12 @@ def question_page():
                                                    request.args.get("order_direction"))
     return render_template("question_list.html", headers=headers, questions=questions, story_keys=story_keys)
 
-#
-# def display_time(s):
-#     return data_handler.transform_timestamp(s)
+
+def display_time(s):
+    return data_handler.transform_timestamp(s)
 
 
-# app.jinja_env.globals.update(display_time=display_time)
+app.jinja_env.globals.update(display_time=display_time)
 
 
 @app.route("/uploads/<filename>")
@@ -75,9 +81,7 @@ def add_question_post():
     new_question['submission_time'] = util.get_current_date_time()
 
     uploaded_file = request.files['file']
-    if uploaded_file.filename != '':
-        uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
-        new_question['image'] = os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename)
+    new_question['image'] = swap_image(uploaded_file)
 
     question_id = data_manager.add_question(new_question).get('id')
     return redirect(url_for("display_question", question_id=question_id))
@@ -97,9 +101,7 @@ def edit_question_post(question_id):
     edited_question = dict(request.form)
 
     uploaded_file = request.files['file']
-    if uploaded_file.filename != '':
-        uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
-        edited_question['image'] = os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename)
+    edited_question['image'] = swap_image(uploaded_file)
 
     data_manager.update_question(edited_question)
 
