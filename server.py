@@ -22,12 +22,12 @@ def question_page():
                                                    request.args.get("order_direction"))
     return render_template("question_list.html", headers=headers, questions=questions, story_keys=story_keys)
 
+#
+# def display_time(s):
+#     return data_handler.transform_timestamp(s)
 
-def display_time(s):
-    return data_handler.transform_timestamp(s)
 
-
-app.jinja_env.globals.update(display_time=display_time)
+# app.jinja_env.globals.update(display_time=display_time)
 
 
 @app.route("/uploads/<filename>")
@@ -79,15 +79,13 @@ def add_question_post():
         uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
         new_question['image'] = os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename)
 
-    question_id = data_manager.add_question(tuple(new_question.values())).get('id')
+    question_id = data_manager.add_question(new_question).get('id')
     return redirect(url_for("display_question", question_id=question_id))
 
 
 @app.route("/question/<int:question_id>/edit")
 def edit_question_get(question_id):
-    questions = connection.read_csv("sample_data/question.csv")
-    question = data_handler.get_item_by_id(questions, str(question_id))
-
+    question = data_manager.get_question_by_id(question_id)
     if question is None:
         return redirect(url_for("display_question", question_id=question_id))
     else:
@@ -101,10 +99,9 @@ def edit_question_post(question_id):
     uploaded_file = request.files['file']
     if uploaded_file.filename != '':
         uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
-        edited_question["image"] = os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename)
+        edited_question['image'] = os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename)
 
-    questions = data_handler.update_question(edited_question)
-    connection.write_csv("sample_data/question.csv", questions)
+    data_manager.update_question(edited_question)
 
     return redirect(url_for("display_question", question_id=question_id))
 
