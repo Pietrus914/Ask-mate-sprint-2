@@ -24,6 +24,17 @@ def get_questions(cursor: RealDictCursor, limit: (None, int)) -> list:  # all qu
 
 
 @database_common.connection_handler
+def get_questions_by_order(cursor: RealDictCursor, order: str, direct: str):
+    query = f"""
+            SELECT *
+            FROM question
+            ORDER BY {order} {direct}
+            """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
 def get_question_by_id(cursor: RealDictCursor, question_id: int) -> list:
     query = f"""
         SELECT *
