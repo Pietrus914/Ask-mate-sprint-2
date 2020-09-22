@@ -118,22 +118,43 @@ def edit_question_post(question_id):
     return redirect(url_for("display_question", question_id=question_id))
 
 
+
+
+
 @app.route("/question/<question_id>/delete")
 def delete_question(question_id):
-    questions = connection.read_csv("sample_data/question.csv")
-    data_handler.delete_img(question_id)
 
-    # answers = data_handler.get_answers_for_question(data_handler.prepare_answers_for_display(question_id),question_id )
-    # for answer in answers:
-    #     if answer.get("image") != None:
-    #         os.remove(answer["image"])
-    #         answers.remove(answer)
-    updated_answers = data_handler.delete_all_answers_for_question(question_id)
-    connection.write_csv("sample_data/answer.csv", updated_answers)
+    answer_pictures_paths = data_manager.get_answer_pictures_paths(question_id)
+    util.delete_all_images(answer_pictures_paths)
 
-    data_handler.delete_item_from_items(questions, question_id)
+    # for path in answer_pictures_paths:
+    #     if path.get("image"):
+    #         util.delete_image(path["image"])
 
-    connection.write_csv("sample_data/question.csv", questions)
+    question_pictures_paths = data_manager.get_question_pictures_paths(question_id)
+    util.delete_all_images(question_pictures_paths)
+    # for path in question_pictures_paths:
+    #     if path.get("image"):
+    #         util.delete_image(path["image"])
+
+    data_manager.delete_answers_for_question(question_id)
+    data_manager.delete_question_id_from_question_tag(question_id)
+    data_manager.delete_question(question_id)
+
+
+
+
+
+
+    # questions = connection.read_csv("sample_data/question.csv")
+    # data_handler.delete_img(question_id)
+    #
+    # updated_answers = data_handler.delete_all_answers_for_question(question_id)
+    # connection.write_csv("sample_data/answer.csv", updated_answers)
+    #
+    # data_handler.delete_item_from_items(questions, question_id)
+    #
+    # connection.write_csv("sample_data/question.csv", questions)
 
     return redirect(url_for("question_page"))
 

@@ -78,13 +78,60 @@ def update_question(cursor: RealDictCursor, edited_question: dict):
 
 
 @database_common.connection_handler
-def views_updated(cursor: RealDictCursor, question_id):
+def views_updated(cursor: RealDictCursor, question_id: int):
     query= f"""
         UPDATE question
         SET view_number = view_number + 1
         WHERE id = {question_id}"""
     cursor.execute(query)
     return
+
+
+@database_common.connection_handler
+def delete_answers_for_question(cursor: RealDictCursor, question_id: int):
+    query = f"""
+        DELETE from answer
+        WHERE question_id = {question_id}"""
+    cursor.execute(query)
+    return
+
+@database_common.connection_handler
+def get_answer_pictures_paths(cursor: RealDictCursor, question_id: int):
+    query = f"""
+        SELECT image
+        FROM answer
+        WHERE question_id = {question_id}"""
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_question_pictures_paths(cursor: RealDictCursor, question_id: int):
+    query = f"""
+        SELECT image 
+        FROM question
+        WHERE id = {question_id}"""
+    cursor.execute(query)
+    return cursor.fetchall()
+
+@database_common.connection_handler
+def delete_question(cursor: RealDictCursor, question_id: int):
+    query = f"""
+            DELETE from question
+            WHERE id = {question_id}"""
+    cursor.execute(query)
+    return
+
+@database_common.connection_handler
+def delete_question(cursor: RealDictCursor, question_id: int):
+    query = f"""
+            DELETE from question_tag
+            WHERE question_id = {question_id}"""
+    cursor.execute(query)
+    return
+
+
+
 #
 # @database_common.connection_handler
 # def get_question_id(cursor: RealDictCursor) -> list:
