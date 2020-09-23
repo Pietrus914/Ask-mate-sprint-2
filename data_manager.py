@@ -63,6 +63,7 @@ def get_answers_by_question_id(cursor: RealDictCursor, question_id: int) -> list
         SELECT *
         FROM answer
         WHERE question_id = {question_id}
+        ORDER BY submission_time DESC
         """
     cursor.execute(query)
     return cursor.fetchall()
@@ -104,6 +105,25 @@ def delete_answers_for_question(cursor: RealDictCursor, question_id: int):
     query = f"""
         DELETE from answer
         WHERE question_id = {question_id}"""
+    cursor.execute(query)
+    return
+
+
+@database_common.connection_handler
+def delete_answer_from_answers(cursor: RealDictCursor, question_id: int, answer_id: int):
+    query = f"""
+        DELETE from answer
+        WHERE question_id = {question_id} AND id = {answer_id}"""
+    cursor.execute(query)
+    return
+
+
+@database_common.connection_handler
+def update_answer_votes(cursor: RealDictCursor, answer_id: int, difference: int):
+    query = f"""
+        UPDATE answer
+        SET vote_number = vote_number + {difference}
+        WHERE id = {answer_id}"""
     cursor.execute(query)
     return
 

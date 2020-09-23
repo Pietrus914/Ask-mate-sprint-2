@@ -11,7 +11,7 @@ def get_item_by_id(items,id):
     return None
 
 
-'''prepare a question for displaying: time format'''
+'''prepare a question for displaying: time format -> db'''
 def prepare_question_for_display(question_id):
     all_questions = connection.read_csv("sample_data/question.csv")
     question = get_item_by_id(all_questions, question_id)
@@ -20,7 +20,7 @@ def prepare_question_for_display(question_id):
     return question
 
 
-'''function that gets all answers for a given question'''
+'''function that gets all answers for a given question  -> db'''
 def get_answers_for_question(answers,question_id):
     all_answers = []
     for answer in answers:
@@ -30,7 +30,7 @@ def get_answers_for_question(answers,question_id):
     return all_answers
 
 
-'''prepare answers for displaying: time format'''
+'''prepare answers for displaying: time format -> db'''
 def prepare_answers_for_display(question_id):
     all_answers = connection.read_csv("sample_data/answer.csv")
     answers = get_answers_for_question(all_answers, question_id)
@@ -51,7 +51,7 @@ def delete_item_from_items(items, item_id):
             return items
 
 
-'''delete answer for a given question from answers'''
+'''delete answer for a given question from answers  -> db'''
 def delete_answer_from_answers(question_id, answer_id):
      all_answers = connection.read_csv("sample_data/answer.csv")
      for answer in all_answers:
@@ -62,7 +62,7 @@ def delete_answer_from_answers(question_id, answer_id):
                 all_answers.remove(answer)
                 return all_answers
 
-
+''' -> '''
 def delete_all_answers_for_question(question_id):
     all_answers = connection.read_csv("sample_data/answer.csv")
     updated_answers = []
@@ -140,7 +140,7 @@ def get_current_timestamp():
 def get_current_date_time():
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-'''upadtes answers votes'''
+'''upadtes answers votes  -> db'''
 def update_votes(items,item_id,post_result):
     for item in items:
         if item["id"] == item_id:
