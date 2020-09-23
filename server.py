@@ -135,9 +135,13 @@ def delete_question(question_id):
     question_pictures_paths = data_manager.get_question_pictures_paths(question_id)
     util.delete_all_images(question_pictures_paths)
 
+    if data_manager.has_question_comment(question_id) is not None:
+        data_manager.delete_comment_for_question(question_id)
+    data_manager.delete_question_from_question_tag(question_id)
 
+    data_manager.delete_comment_for_answers_for_question(question_id)
     data_manager.delete_answers_for_question(question_id)
-    data_manager.delete_question_id_from_question_tag(question_id)
+
     data_manager.delete_question(question_id)
 
     # questions = connection.read_csv("sample_data/question.csv")
@@ -206,7 +210,10 @@ def edit_answer_post(answer_id):
 
 @app.route("/answer/<question_id>/<answer_id>/delete")
 def delete_answer(question_id, answer_id):
-    data_manager.delete_answer_from_answers(question_id, answer_id)
+    if data_manager.has_answer_comment(answer_id) is not None:
+        data_manager.delete_comment_for_answer(answer_id)
+
+    data_manager.delete_answer_from_answers(answer_id)
 
 
     # answers = data_handler.delete_answer_from_answers(question_id, answer_id)
