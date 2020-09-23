@@ -210,6 +210,10 @@ def edit_answer_post(answer_id):
 
 @app.route("/answer/<question_id>/<answer_id>/delete")
 def delete_answer(question_id, answer_id):
+
+    answer_pictures_paths = data_manager.get_answer_id_pictures_paths(answer_id)
+    util.delete_all_images(answer_pictures_paths)
+
     if data_manager.has_answer_comment(answer_id) is not None:
         data_manager.delete_comment_for_answer(answer_id)
 

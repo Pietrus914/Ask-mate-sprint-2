@@ -9,7 +9,7 @@ INSERT INTO question VALUES (5, '2020-05-01 10:41:00', 14, 57, 'Create folder Fo
 SELECT pg_catalog.setval('question_id_seq', 2, true);
 
 INSERT INTO answer VALUES (3, '2020-04-28 16:49:00', 4, 2, 'I will answer you, but I nedd some sleep first...', 'uploads/niezapominajki.jfif');
-INSERT INTO answer VALUES (4, '2020-04-25 14:42:00', 35, 3, 'Look it up in the Python docs', 'https://www.google.com/imgres?imgurl=https%3A%2F%2Fimg-ovh-cloud.zszywka.pl%2F1%2F0146%2F8122.jpg&imgrefurl=https%3A%2F%2Fzszywka.pl%2Fp%2Fkwiatki-5100192.html&tbnid=7zwzqUmjPF2oaM&vet=12ahUKEwj4xtHX_P_rAhUHDpoKHdXAAJ8QMygJegUIARDfAg..i&docid=2eJipBwt-y5dRM&w=500&h=500&q=kwiatki%20-bukiet&ved=2ahUKEwj4xtHX_P_rAhUHDpoKHdXAAJ8QMygJegUIARDfAg');
+INSERT INTO answer VALUES (4, '2020-04-25 14:42:00', 35, 3, 'Look it up in the Python docs', 'https://1.bp.blogspot.com/-kGcxwneCgiM/Xseae3AuoYI/AAAAAAAAcHc/nJBKSBJXYKw2ZGGwj46OZ1cTWrXPlCZmwCLcBGAsYHQ/s1600/IMG_3162.jpg');
 SELECT pg_catalog.setval('answer_id_seq', 2, true);
 
 ---------------------------------------

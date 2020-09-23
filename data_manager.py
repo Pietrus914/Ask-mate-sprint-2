@@ -170,7 +170,7 @@ def has_answer_comment(cursor: RealDictCursor, answer_id: int):
 
 
 @database_common.connection_handler
-def delete_comment_for_answer(cursor: RealDictCursor, question_id: int, answer_id: int):
+def delete_comment_for_answer(cursor: RealDictCursor, answer_id: int):
     query = f"""
         DELETE from comment
         WHERE answer_id = {answer_id}"""
@@ -207,6 +207,17 @@ def get_answer_pictures_paths(cursor: RealDictCursor, question_id: int):
 
 
 @database_common.connection_handler
+def get_answer_id_pictures_paths(cursor: RealDictCursor, answer_id):
+    query = f"""
+            SELECT image
+            FROM answer
+            WHERE id = {answer_id}"""
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+
+@database_common.connection_handler
 def get_question_pictures_paths(cursor: RealDictCursor, question_id: int):
     query = f"""
         SELECT image 
@@ -225,13 +236,13 @@ def delete_question(cursor: RealDictCursor, question_id: int):
     return
 
 
-@database_common.connection_handler
-def delete_question(cursor: RealDictCursor, question_id: int):
-    query = f"""
-            DELETE from question_tag
-            WHERE question_id = {question_id}"""
-    cursor.execute(query)
-    return
+# @database_common.connection_handler
+# def delete_question_id_form_question_tag(cursor: RealDictCursor, question_id: int):
+#     query = f"""
+#             DELETE from question_tag
+#             WHERE question_id = {question_id}"""
+#     cursor.execute(query)
+#     return
 
 
 
