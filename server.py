@@ -5,6 +5,8 @@ import os
 app = Flask(__name__)
 app.config['UPLOAD_PATH'] = 'uploads'
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024  # maksymalna wielkosc uploadowanego obrazu
+headers = ["Title", "Message", "Submission Time", "Views", "Votes"]
+story_keys = ["title", "message", "submission_time", "view_number", "vote_number"]
 
 '''function to use when user can upload file'''
 def swap_image(uploaded_file):
@@ -15,20 +17,23 @@ def swap_image(uploaded_file):
 
 @app.route("/")
 def main_page():
-    headers = ["Title", "Message", "Submission Time", "Views", "Votes"]
-    story_keys = ["title", "message", "submission_time", "view_number", "vote_number"]
     questions = data_manager.get_questions(5)
     return render_template("index.html", headers=headers, questions=questions, story_keys=story_keys)
 
 
 @app.route("/list")
 def question_page():
-    headers = ["Title", "Message", "Submission Time", "Views", "Votes"]
-    story_keys = ["title", "message", "submission_time", "view_number", "vote_number"]
     questions = data_manager.get_questions(None)
     if len(request.args) != 0:
         questions = data_manager.get_questions_by_order(request.args.get("order_by"), request.args.get("order_direction"))
     return render_template("question_list.html", headers=headers, questions=questions, story_keys=story_keys)
+
+
+@app.route("/search")
+def display_search_question():
+    search_phrase = request.args.get("search")
+    questions = data_manager.get_questions_by_phrase(search_phrase)
+    return render_template("search_page.html", headers=headers, questions=questions, story_keys=story_keys)
 
 
 def display_time(s):

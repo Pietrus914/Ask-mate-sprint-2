@@ -2,12 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Question Forum</title>
+    <title>Searched Questions</title>
 </head>
 <body>
-    <h1>Question Forum</h1>
-
-    <h3>Last Posts</h3>
+<h3>Searched Questions</h3>
 
     <table border="1">
         <thead>
@@ -41,12 +39,6 @@
         </tbody>
     </table>
     <br>
-    <form action="{{url_for("display_search_question")}}">
-            <label for="search_input">Search on forum:</label>
-            <input id="search_input" type="text" name="search">
-
-            <button type="submit">Search</button>
-        </form>
-    <a href="{{url_for("question_page") }}"><button type="button">Go To Question List</button></a>
+    <a href="{{url_for("main_page") }}"><button type="button">Back to Main Page</button></a>
 </body>
 </html>
