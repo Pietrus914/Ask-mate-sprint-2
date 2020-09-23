@@ -21,9 +21,9 @@
             <p>Submission time: {{ question.submission_time }}, Numbers of views: {{ question.view_number }}</p>
 {#        <p>Submission time: {{ display_time(question.submission_time) }}, Numbers of views: {{ question.view_number }}</p>#}
     <p>Vote's number: {{ question.vote_number }}
-        <form action="{{ url_for("question_vote_up", question_id=question.id) }}" method="post">
-            <button type="submit" id="vote_up" name = "vote_up">VOTE UP</button>
-            <button type="submit" formaction="{{ url_for("question_vote_down",question_id=question.id) }}" id="vote_down" name = "vote_down">VOTE DOWN</button>
+        <form action="{{ url_for("question_vote", question_id=question.id) }}" method="post">
+            <button type="submit" id="vote_up" name = "vote_question" value="vote_up">VOTE UP</button>
+            <button type="submit" id="vote_down" name = "vote_question" value="vote_down">VOTE DOWN</button>
         </form>
 
     </p>

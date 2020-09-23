@@ -226,20 +226,29 @@ def delete_answer(question_id, answer_id):
     return redirect(url_for("display_question", question_id=question_id))
 
 
+# @app.route("/question/<question_id>/vote_up", methods=["POST"])
+# def question_vote_up(question_id):
+#     questions = connection.read_csv("sample_data/question.csv")
+#     questions = data_handler.add_vote_up(questions, question_id)
+#     connection.write_csv("sample_data/question.csv", questions)
+#
+#     return redirect(url_for("display_question", question_id=question_id))
+
+#
+# @app.route("/question/<question_id>/vote_down", methods=["POST"])
+# def question_vote_down(question_id):
+#     questions = connection.read_csv("sample_data/question.csv")
+#     questions = data_handler.substract_vote(questions, question_id)
+#     connection.write_csv("sample_data/question.csv", questions)
+#
+#     return redirect(url_for("display_question", question_id=question_id))
+
+
 @app.route("/question/<question_id>/vote_up", methods=["POST"])
-def question_vote_up(question_id):
-    questions = connection.read_csv("sample_data/question.csv")
-    questions = data_handler.add_vote_up(questions, question_id)
-    connection.write_csv("sample_data/question.csv", questions)
-
-    return redirect(url_for("display_question", question_id=question_id))
-
-
-@app.route("/question/<question_id>/vote_down", methods=["POST"])
-def question_vote_down(question_id):
-    questions = connection.read_csv("sample_data/question.csv")
-    questions = data_handler.substract_vote(questions, question_id)
-    connection.write_csv("sample_data/question.csv", questions)
+def question_vote(question_id):
+    post_result = dict(request.form)["vote_question"]
+    difference = util.get_difference_of_votes(post_result)
+    data_manager.update_question_votes(question_id, difference)
 
     return redirect(url_for("display_question", question_id=question_id))
 
@@ -247,7 +256,7 @@ def question_vote_down(question_id):
 @app.route("/answer/<question_id>/<answer_id>/vote_up", methods=["POST"])
 def answer_vote(question_id, answer_id):
     post_result = dict(request.form)["vote_answer"]
-    print(post_result)
+    # print(post_result)
     difference =  util.get_difference_of_votes(post_result)
     data_manager.update_answer_votes(answer_id, difference)
 

@@ -91,6 +91,16 @@ def update_question(cursor: RealDictCursor, edited_question: dict):
 
 
 @database_common.connection_handler
+def update_question_votes(cursor:RealDictCursor, question_id, difference: int):
+    query = f"""
+        UPDATE question
+        SET vote_number = vote_number + {difference}
+        WHERE id = {question_id}"""
+    cursor.execute(query)
+    return
+
+
+@database_common.connection_handler
 def views_updated(cursor: RealDictCursor, question_id: int):
     query= f"""
         UPDATE question
