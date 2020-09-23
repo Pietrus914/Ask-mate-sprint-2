@@ -114,36 +114,73 @@ def views_updated(cursor: RealDictCursor, question_id: int):
 @database_common.connection_handler
 def delete_answers_for_question(cursor: RealDictCursor, question_id: int):
     query = f"""
-        DELETE from comment
-        WHERE question_id = {question_id}"""
-    cursor.execute(query)
-
-    query = f"""
-        DELETE from question_tag
-        WHERE question_id = {question_id}"""
-    cursor.execute(query)
-
-
-    query = f"""
         DELETE from answer
         WHERE question_id = {question_id}"""
     cursor.execute(query)
     return
 
+@database_common.connection_handler
+def delete_comment_for_question(cursor: RealDictCursor, question_id: int):
+    query = f"""
+            DELETE from comment
+            WHERE question_id = {question_id}"""
+    cursor.execute(query)
+    return
+
+
+@database_common.connection_handler
+def delete_comment_for_answers_for_question(cursor: RealDictCursor, question_id: int):
+    query = f"""
+        DELETE from comment
+        WHERE answer_id IN (
+        SELECT id 
+        FROM answer 
+        WHERE question_id = {question_id})"""
+    cursor.execute(query)
+    return
+
+
+@database_common.connection_handler
+def delete_question_from_question_tag(cursor: RealDictCursor, question_id: int):
+    query = f"""
+            DELETE from question_tag
+            WHERE question_id = {question_id}"""
+    cursor.execute(query)
+    return
+
+@database_common.connection_handler
+def has_question_comment(cursor: RealDictCursor, question_id: int):
+    query = f"""
+        SELECT id
+        FROM comment 
+        WHERE question_id = {question_id}"""
+    cursor.execute(query)
+    return cursor.fetchone()
 
 
 
 @database_common.connection_handler
-def delete_answer_from_answers(cursor: RealDictCursor, question_id: int, answer_id: int):
-    queryn = f"""
+def has_answer_comment(cursor: RealDictCursor, answer_id: int):
+    query = f"""
+        SELECT id
+        FROM comment 
+        WHERE answer_id = {answer_id}"""
+    cursor.execute(query)
+    return cursor.fetchone()
+
+
+@database_common.connection_handler
+def delete_comment_for_answer(cursor: RealDictCursor, answer_id: int):
+    query = f"""
         DELETE from comment
         WHERE answer_id = {answer_id}"""
-    cursor.execute(queryn)
+    cursor.execute(query)
 
-
+@database_common.connection_handler
+def delete_answer_from_answers(cursor: RealDictCursor, answer_id: int):
     query = f"""
         DELETE from answer
-        WHERE question_id = {question_id} AND id = {answer_id}"""
+        WHERE id = {answer_id}"""
     cursor.execute(query)
 
     return
@@ -170,6 +207,17 @@ def get_answer_pictures_paths(cursor: RealDictCursor, question_id: int):
 
 
 @database_common.connection_handler
+def get_answer_id_pictures_paths(cursor: RealDictCursor, answer_id):
+    query = f"""
+            SELECT image
+            FROM answer
+            WHERE id = {answer_id}"""
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+
+@database_common.connection_handler
 def get_question_pictures_paths(cursor: RealDictCursor, question_id: int):
     query = f"""
         SELECT image 
@@ -188,13 +236,13 @@ def delete_question(cursor: RealDictCursor, question_id: int):
     return
 
 
-@database_common.connection_handler
-def delete_question(cursor: RealDictCursor, question_id: int):
-    query = f"""
-            DELETE from question_tag
-            WHERE question_id = {question_id}"""
-    cursor.execute(query)
-    return
+# @database_common.connection_handler
+# def delete_question_id_form_question_tag(cursor: RealDictCursor, question_id: int):
+#     query = f"""
+#             DELETE from question_tag
+#             WHERE question_id = {question_id}"""
+#     cursor.execute(query)
+#     return
 
 
 
