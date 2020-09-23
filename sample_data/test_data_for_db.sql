@@ -1,6 +1,6 @@
 Asia 23.09.2020
 ----------------------------------------
-INSERT INTO question VALUES (6, '2018-04-28 08:29:00', 3, 7, 'How to make dictionaries in Python?', 'How it works?', 'uploads/kwiatki1.jfif');
+INSERT INTO question VALUES (3, '2018-04-28 08:29:00', 3, 7, 'How to make dictionaries in Python?', 'How it works?', 'uploads/kwiatki1.jfif');
 INSERT INTO question VALUES (4, '2018-05-29 09:19:00', 5, 19, 'Passing arguments in Flask','I am trying to understand how best to redirect and pass arguments using Flask
 
 Below is my code, I''m finding that x and y are not making it into the template.', 'uploads/magnolia.jfif');
