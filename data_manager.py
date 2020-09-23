@@ -17,7 +17,7 @@ def get_questions(cursor: RealDictCursor, limit: (None, int)) -> list:  # all qu
         query = f"""
                 SELECT *
                 FROM question
-                ORDER BY submission_time
+                ORDER BY submission_time DESC
                 LIMIT {limit}
                 """
     cursor.execute(query)
@@ -31,6 +31,17 @@ def get_questions_by_order(cursor: RealDictCursor, order: str, direct: str):
             FROM question
             ORDER BY {order} {direct}
             """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_questions_by_phrase(cursor: RealDictCursor, phrase: str) -> list:
+    query = f"""
+                SELECT *
+                FROM question
+                WHERE LOWER(title) LIKE LOWER('%{phrase}%') or LOWER(message) LIKE LOWER('%{phrase}%')
+                """
     cursor.execute(query)
     return cursor.fetchall()
 
@@ -67,6 +78,7 @@ def add_question(cursor: RealDictCursor, new_question: dict) -> dict:
     cursor.execute(query)
     return cursor.fetchone()
 
+
 @database_common.connection_handler
 def update_question(cursor: RealDictCursor, edited_question: dict):
     query = f"""
@@ -95,6 +107,7 @@ def delete_answers_for_question(cursor: RealDictCursor, question_id: int):
     cursor.execute(query)
     return
 
+
 @database_common.connection_handler
 def get_answer_pictures_paths(cursor: RealDictCursor, question_id: int):
     query = f"""
@@ -114,6 +127,7 @@ def get_question_pictures_paths(cursor: RealDictCursor, question_id: int):
     cursor.execute(query)
     return cursor.fetchall()
 
+
 @database_common.connection_handler
 def delete_question(cursor: RealDictCursor, question_id: int):
     query = f"""
@@ -121,6 +135,7 @@ def delete_question(cursor: RealDictCursor, question_id: int):
             WHERE id = {question_id}"""
     cursor.execute(query)
     return
+
 
 @database_common.connection_handler
 def delete_question(cursor: RealDictCursor, question_id: int):
