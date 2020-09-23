@@ -132,24 +132,13 @@ def delete_question(question_id):
     answer_pictures_paths = data_manager.get_answer_pictures_paths(question_id)
     util.delete_all_images(answer_pictures_paths)
 
-    # for path in answer_pictures_paths:
-    #     if path.get("image"):
-    #         util.delete_image(path["image"])
-
     question_pictures_paths = data_manager.get_question_pictures_paths(question_id)
     util.delete_all_images(question_pictures_paths)
-    # for path in question_pictures_paths:
-    #     if path.get("image"):
-    #         util.delete_image(path["image"])
+
 
     data_manager.delete_answers_for_question(question_id)
     data_manager.delete_question_id_from_question_tag(question_id)
     data_manager.delete_question(question_id)
-
-
-
-
-
 
     # questions = connection.read_csv("sample_data/question.csv")
     # data_handler.delete_img(question_id)
@@ -260,18 +249,10 @@ def answer_vote(question_id, answer_id):
     difference =  util.get_difference_of_votes(post_result)
     data_manager.update_answer_votes(answer_id, difference)
 
-    #
-    # answers = data_handler.get_answers_for_question(connection.read_csv("sample_data/answer.csv"), question_id)
-    # answers = data_handler.update_votes(answers, answer_id, post_result)
-    #
-    # connection.write_csv("sample_data/answer.csv", answers)
 
     return redirect(url_for("display_question", question_id=question_id))
 
 
-# @app.route("/answer/<answer_id>/vote_down", methods=["POST"])
-# def answer_vote_down(answer_id):
-#     return redirect(url_for("display_question"))
 
 
 if __name__ == "__main__":

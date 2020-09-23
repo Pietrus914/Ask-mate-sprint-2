@@ -107,11 +107,23 @@ def views_updated(cursor: RealDictCursor, question_id: int):
         SET view_number = view_number + 1
         WHERE id = {question_id}"""
     cursor.execute(query)
+
     return
 
 
 @database_common.connection_handler
 def delete_answers_for_question(cursor: RealDictCursor, question_id: int):
+    query = f"""
+        DELETE from comment
+        WHERE question_id = {question_id}"""
+    cursor.execute(query)
+
+    query = f"""
+        DELETE from question_tag
+        WHERE question_id = {question_id}"""
+    cursor.execute(query)
+
+
     query = f"""
         DELETE from answer
         WHERE question_id = {question_id}"""
@@ -119,12 +131,21 @@ def delete_answers_for_question(cursor: RealDictCursor, question_id: int):
     return
 
 
+
+
 @database_common.connection_handler
 def delete_answer_from_answers(cursor: RealDictCursor, question_id: int, answer_id: int):
+    queryn = f"""
+        DELETE from comment
+        WHERE answer_id = {answer_id}"""
+    cursor.execute(queryn)
+
+
     query = f"""
         DELETE from answer
         WHERE question_id = {question_id} AND id = {answer_id}"""
     cursor.execute(query)
+
     return
 
 
