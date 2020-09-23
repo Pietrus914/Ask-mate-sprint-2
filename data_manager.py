@@ -72,10 +72,10 @@ def get_answers_by_question_id(cursor: RealDictCursor, question_id: int) -> list
 def add_question(cursor: RealDictCursor, new_question: dict) -> dict:
     query = f"""
         INSERT INTO question (title, message, image, submission_time)
-        VALUES ('{new_question['title']}', '{new_question['message']}', '{new_question['image']}', '{new_question['submission_time']}')
+        VALUES (%(title)s, %(message)s, %(image)s, %(submission_time)s)
         RETURNING id
         """
-    cursor.execute(query)
+    cursor.execute(query, new_question)
     return cursor.fetchone()
 
 
@@ -83,10 +83,10 @@ def add_question(cursor: RealDictCursor, new_question: dict) -> dict:
 def update_question(cursor: RealDictCursor, edited_question: dict):
     query = f"""
         UPDATE question 
-        SET title = '{edited_question['title']}', message = '{edited_question['message']}', image = '{edited_question['image']}'
-        WHERE id = {edited_question['id']}
+        SET title = %(title)s, message = %(message)s, image = %(image)s
+        WHERE id = %(id)s
         """
-    cursor.execute(query)
+    cursor.execute(query, edited_question)
 
 
 @database_common.connection_handler
