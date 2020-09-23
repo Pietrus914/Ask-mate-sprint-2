@@ -5,6 +5,8 @@ import os
 app = Flask(__name__)
 app.config['UPLOAD_PATH'] = 'uploads'
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024  # maksymalna wielkosc uploadowanego obrazu
+headers = ["Title", "Message", "Submission Time", "Views", "Votes"]
+story_keys = ["title", "message", "submission_time", "view_number", "vote_number"]
 
 '''function to use when user can upload file'''
 def swap_image(uploaded_file):
@@ -15,18 +17,23 @@ def swap_image(uploaded_file):
 
 @app.route("/")
 def main_page():
-    return render_template("index.html")
+    questions = data_manager.get_questions(5)
+    return render_template("index.html", headers=headers, questions=questions, story_keys=story_keys)
 
 
 @app.route("/list")
 def question_page():
-    headers = ["Title", "Message", "Submission Time", "Views", "Votes"]
-    story_keys = ["title", "message", "submission_time", "view_number", "vote_number"]
-    questions = connection.read_csv("sample_data/question.csv")
+    questions = data_manager.get_questions(None)
     if len(request.args) != 0:
-        questions = data_handler.sorting_questions(questions, request.args.get("order_by"),
-                                                   request.args.get("order_direction"))
+        questions = data_manager.get_questions_by_order(request.args.get("order_by"), request.args.get("order_direction"))
     return render_template("question_list.html", headers=headers, questions=questions, story_keys=story_keys)
+
+
+@app.route("/search")
+def display_search_question():
+    search_phrase = request.args.get("search")
+    questions = data_manager.get_questions_by_phrase(search_phrase)
+    return render_template("search_page.html", headers=headers, questions=questions, story_keys=story_keys)
 
 
 def display_time(s):
@@ -52,10 +59,18 @@ app.jinja_env.globals.update(get_filename=get_filename)
 @app.route("/question/<question_id>")
 def display_question(question_id):
     if request.referrer != request.url:
-        data_handler.views_updated(question_id)
-    question = data_handler.prepare_question_for_display(question_id)
-    answers = data_handler.prepare_answers_for_display(question_id)
+        data_manager.views_updated(question_id)
+
+    question = data_manager.get_question_by_id(question_id)
+    answers = data_manager.get_answers_by_question_id(question_id)
+
     answers_headers = ["Votes' number", "Answer", "Submission time"]
+
+    # if request.referrer != request.url:
+    #     data_handler.views_updated(question_id)
+    # question = data_handler.prepare_question_for_display(question_id)
+    # answers = data_handler.prepare_answers_for_display(question_id)
+    # answers_headers = ["Votes' number", "Answer", "Submission time"]
     # picture = os.path.split(question["image"])[1]
 
     return render_template("question.html", question=question, answers=answers, answers_headers=answers_headers)
@@ -108,22 +123,43 @@ def edit_question_post(question_id):
     return redirect(url_for("display_question", question_id=question_id))
 
 
+
+
+
 @app.route("/question/<question_id>/delete")
 def delete_question(question_id):
-    questions = connection.read_csv("sample_data/question.csv")
-    data_handler.delete_img(question_id)
 
-    # answers = data_handler.get_answers_for_question(data_handler.prepare_answers_for_display(question_id),question_id )
-    # for answer in answers:
-    #     if answer.get("image") != None:
-    #         os.remove(answer["image"])
-    #         answers.remove(answer)
-    updated_answers = data_handler.delete_all_answers_for_question(question_id)
-    connection.write_csv("sample_data/answer.csv", updated_answers)
+    answer_pictures_paths = data_manager.get_answer_pictures_paths(question_id)
+    util.delete_all_images(answer_pictures_paths)
 
-    data_handler.delete_item_from_items(questions, question_id)
+    # for path in answer_pictures_paths:
+    #     if path.get("image"):
+    #         util.delete_image(path["image"])
 
-    connection.write_csv("sample_data/question.csv", questions)
+    question_pictures_paths = data_manager.get_question_pictures_paths(question_id)
+    util.delete_all_images(question_pictures_paths)
+    # for path in question_pictures_paths:
+    #     if path.get("image"):
+    #         util.delete_image(path["image"])
+
+    data_manager.delete_answers_for_question(question_id)
+    data_manager.delete_question_id_from_question_tag(question_id)
+    data_manager.delete_question(question_id)
+
+
+
+
+
+
+    # questions = connection.read_csv("sample_data/question.csv")
+    # data_handler.delete_img(question_id)
+    #
+    # updated_answers = data_handler.delete_all_answers_for_question(question_id)
+    # connection.write_csv("sample_data/answer.csv", updated_answers)
+    #
+    # data_handler.delete_item_from_items(questions, question_id)
+    #
+    # connection.write_csv("sample_data/question.csv", questions)
 
     return redirect(url_for("question_page"))
 
