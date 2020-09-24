@@ -235,9 +235,9 @@ def answer_vote(question_id, answer_id):
 def new_question_comment(question_id):
     if request.method == "POST":
         details = dict(request.form)
-        time = util.get_current_date_time()
+        details["submission_time"] = util.get_current_date_time()
 
-        data_manager.add_question_comment(details, time, fk_id=question_id, column="question_id")
+        data_manager.add_question_comment(details)
         return redirect(url_for("display_question", question_id=question_id))
     if request.method == "GET":
         return render_template("add_update_comment.html", question_id=question_id)

@@ -9,7 +9,7 @@
 
     <form action="{{ url_for('new_question_comment', question_id=question_id) }}" method="POST">
         <label for="comment_message">Write your comment to question:</label><br>
-        <textarea id="comment_message" minlength="50" rows="7" type="text" maxlength="500" name="comment_message" placeholder="Write your comment"></textarea><br>
+        <textarea id="comment_message"  rows="7" type="text" maxlength="500" name="comment_message" placeholder="Write your comment"></textarea><br>
         <input type="hidden" name="question_id" value="{{ question_id }}"><br>
         <button type="submit">SUBMIT</button>
 

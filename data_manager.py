@@ -237,10 +237,15 @@ def delete_question(cursor: RealDictCursor, question_id: int):
 
 
 @database_common.connection_handler
-def add_question_comment(cursor: RealDictCursor, details: dict, time, fk_id, column: str):
+# def add_question_comment(cursor: RealDictCursor, details: dict, fk_id, column: str):
+#     query = f"""
+#         INSERT INTO comment ({column}, message, submission_time)
+#         VALUES ({fk_id}, {details["comment_message"]}, '{details["submission_time"]}' )
+#         """
+def add_question_comment(cursor: RealDictCursor, details: dict):
     query = f"""
-        INSERT INTO comment ({column}', message, submission_time)
-        VALUES ({fk_id}, {details["comment_message"]}, {time} )
+        INSERT INTO comment (question_id, message, submission_time)
+        VALUES ({details["question_id"]}, '{details["comment_message"]}', '{details["submission_time"]}' )
         """
     cursor.execute(query)
     return
