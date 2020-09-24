@@ -26,6 +26,13 @@
                                 {{ question[key][0:50] }}
                             {% elif key == "title" %}
                                 <a href="{{url_for("display_question", question_id=question["id"]) }}">{{question[key]}}</a>
+                            {% elif key == "in_answer" %}
+                                {% if question["id"] in answers %}
+                                {% for answer in answers[question["id"]] %}
+                                    {{ answer["message"]}}
+                                    <br>
+                                {% endfor %}
+                                {% endif %}
                             {% else %}
                                 {{ question[key] }}
                             {% endif %}
