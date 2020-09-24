@@ -247,6 +247,46 @@ def delete_question(cursor: RealDictCursor, question_id: int):
     return
 
 
+@database_common.connection_handler
+# def add_question_comment(cursor: RealDictCursor, details: dict, fk_id, column: str):
+#     query = f"""
+#         INSERT INTO comment ({column}, message, submission_time)
+#         VALUES ({fk_id}, {details["comment_message"]}, '{details["submission_time"]}' )
+#         """
+def add_question_comment(cursor: RealDictCursor, details: dict):
+    query = f"""
+        INSERT INTO comment (question_id, message, submission_time)
+        VALUES ({details["question_id"]}, '{details["comment_message"]}', '{details["submission_time"]}' )
+        """
+    cursor.execute(query)
+    return
+
+@database_common.connection_handler
+def get_comments_by_question_id(cursor: RealDictCursor, question_id: int):
+    query = f"""
+            SELECT *
+            FROM comment
+            WHERE question_id = {question_id}
+            ORDER BY submission_time DESC"""
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_answer_comments_by_question_id(cursor: RealDictCursor, question_id: int):
+    query = f"""
+            SELECT *
+            FROM comment
+            WHERE answer_id IN (
+            SELECT id 
+            FROM answer 
+            WHERE question_id = {question_id})
+            ORDER BY submission_time DESC"""
+
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
 # @database_common.connection_handler
 # def delete_question_id_form_question_tag(cursor: RealDictCursor, question_id: int):
 #     query = f"""
