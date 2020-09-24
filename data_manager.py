@@ -47,6 +47,17 @@ def get_questions_by_phrase(cursor: RealDictCursor, phrase: str) -> list:
 
 
 @database_common.connection_handler
+def get_answers_by_phrase(cursor: RealDictCursor, phrase: str) -> list:
+    query = f"""
+                SELECT *
+                FROM answer
+                WHERE LOWER(message) LIKE LOWER('%{phrase}%')
+                """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
 def get_question_by_id(cursor: RealDictCursor, question_id: int) -> list:
     query = f"""
         SELECT *
