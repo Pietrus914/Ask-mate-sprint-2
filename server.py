@@ -25,15 +25,29 @@ def main_page():
 def question_page():
     questions = data_manager.get_questions(None)
     if len(request.args) != 0:
-        questions = data_manager.get_questions_by_order(request.args.get("order_by"), request.args.get("order_direction"))
+        questions = data_manager.get_questions_by_order(request.args.get("order_by"),
+                                                        request.args.get("order_direction"))
     return render_template("question_list.html", headers=headers, questions=questions, story_keys=story_keys)
 
 
 @app.route("/search")
 def display_search_question():
+    header = ["Title", "Message", "Submission Time", "Views", "Votes", "In Answer"]
+    story_key = ["title", "message", "submission_time", "view_number", "vote_number", "in_answer"]
     search_phrase = request.args.get("search")
     questions = data_manager.get_questions_by_phrase(search_phrase)
-    return render_template("search_page.html", headers=headers, questions=questions, story_keys=story_keys)
+    answers = data_manager.get_answers_by_phrase(search_phrase)
+    answers_test = {}
+    for answer in answers:
+        if not answer["question_id"] in answers_test.keys():
+            answers_test[answer["question_id"]] = [answer]
+        else:
+            answers_test[answer["question_id"]].append(answer)
+        if not answer["question_id"] in [x["id"] for x in questions]:
+            questions.append(data_manager.get_question_by_id(answer["question_id"]))
+
+    return render_template("search_page.html", headers=header, questions=questions, story_keys=story_key,
+                           answers=answers_test, search_phrase=search_phrase)
 
 
 def display_time(s):
