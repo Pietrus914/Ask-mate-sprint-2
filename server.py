@@ -179,15 +179,6 @@ def add_answer(question_id):
     return render_template("answer.html", question=question, answer=new_answer)
 
 
-'''@app.route("/question/<int:question_id>/new_answer/img", methods=["POST"])
-def add_img_to_answer(question_id):
-    uploaded_file = request.files['file']
-    if uploaded_file.filename != '':
-        uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
-
-    return redirect(url_for("add_answer", question_id=question_id, uploaded_file=uploaded_file))'''
-
-
 @app.route("/question/<int:question_id>/new_answer/post", methods=["POST"])
 def add_answer_post(question_id):
 
@@ -205,9 +196,30 @@ def add_answer_post(question_id):
     return redirect(url_for("display_question", question_id=question_id))
 
 
-@app.route("/question/<question_id>/new-answer", methods=["POST"])
-def edit_answer_post(answer_id):
-    return redirect(url_for("display_question"))
+@app.route("/question/<question_id>/<answer_id>/edit-answer")
+def edit_answer_get(question_id, answer_id):
+
+    question = data_manager.get_question_by_id(question_id)
+
+    answer = data_manager.get_answer_by_id(answer_id)
+
+    if answer is None:
+        return redirect(url_for("display_question", question_id=question_id))
+    else:
+        return render_template("add_update_answer.html", question=question, answer=answer)
+
+
+@app.route("/question/<int:question_id>/<int:answer_id>/edit-answer", methods=["POST"])
+def edit_answer_post(question_id, answer_id):
+
+    edited_answer = dict(request.form)
+
+    uploaded_file = request.files['file']
+    edited_answer['image'] = swap_image(uploaded_file)
+
+    data_manager.update_answer(answer_id, edited_answer)
+
+    return redirect(url_for("display_question", question_id=question_id, answer_id=answer_id))
 
 
 @app.route("/answer/<question_id>/<answer_id>/delete")
