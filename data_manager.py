@@ -256,6 +256,21 @@ def get_comments_by_question_id(cursor: RealDictCursor, question_id: int):
     return cursor.fetchall()
 
 
+@database_common.connection_handler
+def get_answer_comments_by_question_id(cursor: RealDictCursor, question_id: int):
+    query = f"""
+            SELECT *
+            FROM comment
+            WHERE answer_id IN (
+            SELECT id 
+            FROM answer 
+            WHERE question_id = {question_id})
+            ORDER BY submission_time DESC"""
+
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
 # @database_common.connection_handler
 # def delete_question_id_form_question_tag(cursor: RealDictCursor, question_id: int):
 #     query = f"""

@@ -94,14 +94,40 @@
                             <button type="button" name="add_comment" id="add_question_comment">ADD COMMENT</button></a><br>
                         <a href="{{ url_for("delete_answer",question_id=question.id, answer_id=answer.id) }}">
                             <button type="button" name="delete_answer" id="delete_answer" >DELETE ANSWER</button></a>
-
                     </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="4">
+                        <p>
+                            {% if answer_comments|length > 0 %}
+                            <table border="1" style="margin-left: 40px">
+                                <thead><strong>COMMENTS</strong></thead>
 
+                                    <tr>
+                                        {% for comment_header in comment_headers %}
+                                            <th>{{ comment_header }}</th>
+                                        {% endfor %}
+                                    </tr>
+                                <tbody>
+
+                                    {% for comment in answer_comments %}
+                                        {% if comment.answer_id == answer.id %}
+                                            <tr>
+                                                <td>{{ comment.submission_time }}</td>
+                                                <td>{{ comment.message }}</td>
+                                                <td>{{ comment.edited_count }}</td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            {% endif %}
+                        </p>
+                    </td>
                 </tr>
                 {% endfor %}
-
             </tbody>
-
         </table>
     {% endif %}
 

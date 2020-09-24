@@ -64,11 +64,16 @@ def display_question(question_id):
     question = data_manager.get_question_by_id(question_id)
     answers = data_manager.get_answers_by_question_id(question_id)
     question_comments = data_manager.get_comments_by_question_id(question_id)
-
+    answer_comments = data_manager.get_answer_comments_by_question_id(question_id)
     answers_headers = ["Votes' number", "Answer", "Submission time"]
     comment_headers = ["Submission time", "Message", "Edition counter"]
 
-    return render_template("question.html", question=question, answers=answers, answers_headers=answers_headers, question_comments=question_comments, comment_headers=comment_headers)
+    return render_template("question.html", question=question,
+                           answers=answers,
+                           answers_headers=answers_headers,
+                           question_comments=question_comments,
+                           comment_headers=comment_headers,
+                           answer_comments=answer_comments)
 
 
 @app.route("/add")

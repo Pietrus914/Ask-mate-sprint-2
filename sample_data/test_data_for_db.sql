@@ -13,3 +13,8 @@ INSERT INTO answer VALUES (4, '2020-04-25 14:42:00', 35, 3, 'Look it up in the P
 SELECT pg_catalog.setval('answer_id_seq', 2, true);
 
 ---------------------------------------
+Asia 24.09.2020
+
+INSERT INTO comment VALUES (3, NULL, 1,'Always look at the bright side of life :)', '2017-05-01 05:49:00');
+INSERT INTO comment VALUES (4, NULL, 1, 'What is the best way for using dictionaries? .', '2017-05-02 16:55:00');
+SELECT pg_catalog.setval('comment_id_seq', 2, true);
