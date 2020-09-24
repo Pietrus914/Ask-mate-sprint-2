@@ -306,3 +306,12 @@ def get_answer_comments_by_question_id(cursor: RealDictCursor, question_id: int)
 #         """
 #     cursor.execute(query)
 #     return cursor.fetchone().values()
+
+@database_common.connection_handler
+def add_answer(cursor: RealDictCursor, new_answer: dict):
+    query = f"""
+            INSERT INTO  answer (submission_time, question_id, message, image)
+            VALUES ('{new_answer["submission_time"]}', {new_answer["question_id"]}, '{new_answer["message"]}', '{new_answer["image"]}')
+            """
+    cursor.execute(query)
+    return
