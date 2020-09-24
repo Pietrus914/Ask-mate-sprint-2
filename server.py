@@ -163,7 +163,9 @@ def delete_question(question_id):
 
 @app.route("/question/<question_id>/new_answer")
 def add_answer(question_id):
-    question = data_handler.prepare_question_for_display(question_id)
+
+    question = data_manager.get_question_by_id(question_id)
+
     new_answer = \
         {
             "answer_id": None,
@@ -188,12 +190,9 @@ def add_img_to_answer(question_id):
 
 @app.route("/question/<int:question_id>/new_answer/post", methods=["POST"])
 def add_answer_post(question_id):
-    answers = connection.read_csv("sample_data/answer.csv")
 
     new_answer = dict(request.form)
-    new_answer["id"] = data_handler.get_new_id(answers)
-    new_answer["submission_time"] = data_handler.get_current_timestamp()
-    new_answer["vote_number"] = 0
+    new_answer["submission_time"] = util.get_current_date_time()
     new_answer["question_id"] = question_id
 
     uploaded_file = request.files['file']
@@ -201,8 +200,7 @@ def add_answer_post(question_id):
         uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
         new_answer["image"] = os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename)
 
-    answers.append(new_answer)
-    connection.write_csv("sample_data/answer.csv", answers)
+    data_manager.add_answer(new_answer)
 
     return redirect(url_for("display_question", question_id=question_id))
 
@@ -255,8 +253,6 @@ def new_question_comment(question_id):
         return redirect(url_for("display_question", question_id=question_id))
     if request.method == "GET":
         return render_template("add_update_comment.html", question_id=question_id)
-
-
 
 
 if __name__ == "__main__":
