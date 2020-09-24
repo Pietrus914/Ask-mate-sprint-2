@@ -9,72 +9,101 @@
     <h2>QUESTION: {{ question.title }}</h2>
 
     <h3>{{ question.message }}</h3>
-    {% if question.image %}
-        {% if 'http' not in question.image %}
-            <img src="{{ url_for('get_img', filename=get_filename(question.image)) }}" alt="picture added by user" style="max-width: 25%">
-{#        <img src="/static/{{ question.image }}" alt="picture added by user" style="max-width: 25%"> dla naszych obrazków#}
-        {% else %}
-            <img src="{{ question.image }}" alt="picture added by user" style="max-height: 25vw">
+        {% if question.image %}
+            {% if 'http' not in question.image %}
+                <img src="{{ url_for('get_img', filename=get_filename(question.image)) }}" alt="picture added by user" style="max-width: 25%">
+    {#        <img src="/static/{{ question.image }}" alt="picture added by user" style="max-width: 25%"> dla naszych obrazków#}
+            {% else %}
+                <img src="{{ question.image }}" alt="picture added by user" style="max-height: 25vw">
+            {% endif %}
         {% endif %}
-    {% endif %}
 
             <p>Submission time: {{ question.submission_time }}, Numbers of views: {{ question.view_number }}</p>
 {#        <p>Submission time: {{ display_time(question.submission_time) }}, Numbers of views: {{ question.view_number }}</p>#}
-    <p>Vote's number: {{ question.vote_number }}
-        <form action="{{ url_for("question_vote", question_id=question.id) }}" method="post">
-            <button type="submit" id="vote_up" name = "vote_question" value="vote_up">VOTE UP</button>
-            <button type="submit" id="vote_down" name = "vote_question" value="vote_down">VOTE DOWN</button>
-        </form>
+            <p>Vote's number: {{ question.vote_number }}
+                <form action="{{ url_for("question_vote", question_id=question.id) }}" method="post">
+                    <button type="submit" id="vote_up" name = "vote_question" value="vote_up">VOTE UP</button>
+                    <button type="submit" id="vote_down" name = "vote_question" value="vote_down">VOTE DOWN</button>
+                </form>
 
+            </p>
+
+            <p>
+                {% if question_comments|length > 0 %}
+                <table border="1" style="margin-left: 40px">
+                    <thead><strong>COMMENTS</strong></thead>
+
+                        <tr>
+                            {% for comment_header in comment_headers %}
+                                <th>{{ comment_header }}</th>
+                            {% endfor %}
+                        </tr>
+                    <tbody>
+
+                        {% for comment in question_comments %}
+                            <tr>
+                                <td>{{ comment.submission_time }}</td>
+                                <td>{{ comment.message }}</td>
+                                <td>{{ comment.edited_count }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+            </p>
+    <p>
+        <a href="{{ url_for("new_question_comment", question_id=question.id) }}">
+            <button type="button" name="add_comment" id="add_question_comment">ADD COMMENT</button></a>
+        <a href="{{ url_for("add_answer",question_id=question.id) }}">
+            <button type="button" name="add_answer" id="add_answer" >ADD ANSWER</button></a>
+        <a href="{{ url_for("edit_question_get",question_id=question["id"]) }}">
+            <button type="button" name="edit_question" id="edit_question" >EDIT QUESTION</button></a>
+        <a href="{{ url_for("delete_question", question_id = question["id"]) }}">
+            <button type="button" name="delete_question" id="delete_question">DELETE QUESTION</button>
+    </a><br>
     </p>
 
-
-
-
-    <a href="{{ url_for("add_answer",question_id=question.id) }}">
-        <button type="button" name="add_answer" id="add_answer" >ADD ANSWER</button></a>
-    <a href="{{ url_for("edit_question_get",question_id=question["id"]) }}">
-        <button type="button" name="edit_question" id="edit_question" >EDIT QUESTION</button></a>
-    <a href="{{ url_for("delete_question", question_id = question["id"]) }}">
-        <button type="button" name="delete_question" id="delete_question">DELETE QUESTION</button>
-    </a><br>
-
-
-    <table border="1">
-        <thead><strong>ANSWERS:</strong></thead>
-            <tr>
-                {% for item in answers_headers %}
-                <th>{{ item }}</th>
-                {% endfor %}
-            </tr>
-        <tbody>
-            {% for answer in answers %}
-            <tr>
-                <td>{{ answer.vote_number }}</td>
-                <td>{{ answer.message }}<br>
-                    {% if answer.image %}
-                        {% if 'http' not in answer.image %}
-                        <img src="{{ url_for("get_img",filename=get_filename(answer.image)) }}" alt="picture added by user" style="width: 256px"></td>
-                        {% else %}
-                        <img src="{{ answer.image }}" alt="picture added by user" style="width: 256px"></td>
+    {% if answers|length > 0 %}
+        <table border="1" style="margin-left: 40px">
+            <thead><strong>ANSWERS:</strong></thead>
+                <tr>
+                    {% for item in answers_headers %}
+                        <th>{{ item }}</th>
+                    {% endfor %}
+                </tr>
+            <tbody>
+                {% for answer in answers %}
+                <tr>
+                    <td>{{ answer.vote_number }}</td>
+                    <td>{{ answer.message }}<br>
+                        {% if answer.image %}
+                            {% if 'http' not in answer.image %}
+                                <img src="{{ url_for("get_img",filename=get_filename(answer.image)) }}" alt="picture added by user" style="width: 256px"></td>
+                            {% else %}
+                                <img src="{{ answer.image }}" alt="picture added by user" style="width: 256px"></td>
+                            {% endif %}
                         {% endif %}
-                    {% endif %}
-                <td>{{ answer.submission_time }}</td>
-                <td>
-                    <form action="{{ url_for("answer_vote", answer_id=answer.id, question_id=question["id"]) }}" method="post">
-            <button type="submit" id="vote_up" name = "vote_answer" value="vote_up">VOTE UP</button><br><br>
-            <button type="submit"  id="vote_down" name = "vote_answer" value="vote_down">VOTE DOWN</button>
-        </form></td>
-                <td>
-                    <a href="{{ url_for("delete_answer",question_id=question.id, answer_id=answer.id) }}">
-        <button type="button" name="delete_answer" id="delete_answer" >DELETE ANSWER</button></a>
-                </td>
+                    <td>{{ answer.submission_time }}</td>
+                    <td>
+                        <form action="{{ url_for("answer_vote", answer_id=answer.id, question_id=question["id"]) }}" method="post">
+                            <button type="submit" id="vote_up" name = "vote_answer" value="vote_up">VOTE UP</button><br><br>
+                            <button type="submit"  id="vote_down" name = "vote_answer" value="vote_down">VOTE DOWN</button>
+                        </form></td>
+                    <td>
+                        <a href="{{ url_for("new_question_comment", question_id=question.id) }}">
+                            <button type="button" name="add_comment" id="add_question_comment">ADD COMMENT</button></a><br>
+                        <a href="{{ url_for("delete_answer",question_id=question.id, answer_id=answer.id) }}">
+                            <button type="button" name="delete_answer" id="delete_answer" >DELETE ANSWER</button></a>
 
-            </tr>
-            {% endfor %}
-        </tbody>
+                    </td>
 
-    </table>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+    {% endif %}
 
 <a href="{{ url_for("question_page") }}">Back to List of questions</a>
 

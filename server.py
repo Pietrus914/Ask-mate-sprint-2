@@ -63,17 +63,12 @@ def display_question(question_id):
 
     question = data_manager.get_question_by_id(question_id)
     answers = data_manager.get_answers_by_question_id(question_id)
+    question_comments = data_manager.get_comments_by_question_id(question_id)
 
     answers_headers = ["Votes' number", "Answer", "Submission time"]
+    comment_headers = ["Submission time", "Message", "Edition counter"]
 
-    # if request.referrer != request.url:
-    #     data_handler.views_updated(question_id)
-    # question = data_handler.prepare_question_for_display(question_id)
-    # answers = data_handler.prepare_answers_for_display(question_id)
-    # answers_headers = ["Votes' number", "Answer", "Submission time"]
-    # picture = os.path.split(question["image"])[1]
-
-    return render_template("question.html", question=question, answers=answers, answers_headers=answers_headers)
+    return render_template("question.html", question=question, answers=answers, answers_headers=answers_headers, question_comments=question_comments, comment_headers=comment_headers)
 
 
 @app.route("/add")
@@ -144,16 +139,6 @@ def delete_question(question_id):
 
     data_manager.delete_question(question_id)
 
-    # questions = connection.read_csv("sample_data/question.csv")
-    # data_handler.delete_img(question_id)
-    #
-    # updated_answers = data_handler.delete_all_answers_for_question(question_id)
-    # connection.write_csv("sample_data/answer.csv", updated_answers)
-    #
-    # data_handler.delete_item_from_items(questions, question_id)
-    #
-    # connection.write_csv("sample_data/question.csv", questions)
-
     return redirect(url_for("question_page"))
 
 
@@ -219,29 +204,7 @@ def delete_answer(question_id, answer_id):
 
     data_manager.delete_answer_from_answers(answer_id)
 
-
-    # answers = data_handler.delete_answer_from_answers(question_id, answer_id)
-    # connection.write_csv("sample_data/answer.csv", answers)
-
     return redirect(url_for("display_question", question_id=question_id))
-
-
-# @app.route("/question/<question_id>/vote_up", methods=["POST"])
-# def question_vote_up(question_id):
-#     questions = connection.read_csv("sample_data/question.csv")
-#     questions = data_handler.add_vote_up(questions, question_id)
-#     connection.write_csv("sample_data/question.csv", questions)
-#
-#     return redirect(url_for("display_question", question_id=question_id))
-
-#
-# @app.route("/question/<question_id>/vote_down", methods=["POST"])
-# def question_vote_down(question_id):
-#     questions = connection.read_csv("sample_data/question.csv")
-#     questions = data_handler.substract_vote(questions, question_id)
-#     connection.write_csv("sample_data/question.csv", questions)
-#
-#     return redirect(url_for("display_question", question_id=question_id))
 
 
 @app.route("/question/<question_id>/vote_up", methods=["POST"])
@@ -260,9 +223,17 @@ def answer_vote(question_id, answer_id):
     difference =  util.get_difference_of_votes(post_result)
     data_manager.update_answer_votes(answer_id, difference)
 
-
     return redirect(url_for("display_question", question_id=question_id))
 
+
+@app.route('/question/<question_id>/new-comment', methods=["POST"])
+def new_question_comment(question_id):
+    details = dict(request.form)
+    time = util.get_current_date_time()
+
+    data_manager.add_question_comment(details, time, fk_id=question_id, column="question_id")
+
+    return redirect(url_for("display_question", question_id=question_id))
 
 
 
