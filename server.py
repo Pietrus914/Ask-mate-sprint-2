@@ -231,14 +231,17 @@ def answer_vote(question_id, answer_id):
     return redirect(url_for("display_question", question_id=question_id))
 
 
-@app.route('/question/<question_id>/new-comment', methods=["POST"])
+@app.route('/question/<question_id>/new-comment', methods=["GET","POST"])
 def new_question_comment(question_id):
-    details = dict(request.form)
-    time = util.get_current_date_time()
+    if request.method == "POST":
+        details = dict(request.form)
+        time = util.get_current_date_time()
 
-    data_manager.add_question_comment(details, time, fk_id=question_id, column="question_id")
+        data_manager.add_question_comment(details, time, fk_id=question_id, column="question_id")
+        return redirect(url_for("display_question", question_id=question_id))
+    if request.method == "GET":
+        return render_template("add_update_comment.html", question_id=question_id)
 
-    return redirect(url_for("display_question", question_id=question_id))
 
 
 

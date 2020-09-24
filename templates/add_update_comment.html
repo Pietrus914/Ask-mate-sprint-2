@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add comment</title>
+    <title>Add comment to question</title>
 </head>
 <body>
 
 
-    <form action="{{ url_for('new_question_comment') }}" method="POST">
-        <label for="comment_message">Write your comment:</label>
-        <textarea id="comment_message" type="text" maxlength="500" name="comment_message" placeholder="Write your comment"></textarea>
+    <form action="{{ url_for('new_question_comment', question_id=question_id) }}" method="POST">
+        <label for="comment_message">Write your comment to question:</label><br>
+        <textarea id="comment_message" minlength="50" rows="7" type="text" maxlength="500" name="comment_message" placeholder="Write your comment"></textarea><br>
+        <input type="hidden" name="question_id" value="{{ question_id }}"><br>
         <button type="submit">SUBMIT</button>
 
     </form>
