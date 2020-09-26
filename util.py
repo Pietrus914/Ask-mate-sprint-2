@@ -20,3 +20,12 @@ def delete_all_images(paths):
     for path in paths:
         if path.get("image"):
             delete_image(path["image"])
+
+'''function that specify how the votes number should change'''
+def get_difference_of_votes(post_result):
+    if post_result == "vote_up":
+        difference = 1
+    elif post_result == "vote_down":
+        difference = -1
+
+    return difference
