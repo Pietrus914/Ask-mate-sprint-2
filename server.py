@@ -108,6 +108,8 @@ def add_question_get():
 def add_question_post():
     new_question = dict(request.form)
     new_question['submission_time'] = util.get_current_date_time()
+    new_question["view_number"] = 0
+    new_question["vote_number"] = 0
 
     uploaded_file = request.files['file']
     new_question['image'] = swap_image(uploaded_file)
@@ -137,9 +139,6 @@ def edit_question_post(question_id):
     return redirect(url_for("display_question", question_id=question_id))
 
 
-
-
-
 @app.route("/question/<question_id>/delete")
 def delete_question(question_id):
 
@@ -163,7 +162,8 @@ def delete_question(question_id):
 
 @app.route("/question/<question_id>/new_answer")
 def add_answer(question_id):
-    question = data_handler.prepare_question_for_display(question_id)
+
+    question = data_manager.get_question_by_id(question_id)
     new_answer = \
         {
             "answer_id": None,
@@ -177,39 +177,48 @@ def add_answer(question_id):
     return render_template("answer.html", question=question, answer=new_answer)
 
 
-'''@app.route("/question/<int:question_id>/new_answer/img", methods=["POST"])
-def add_img_to_answer(question_id):
-    uploaded_file = request.files['file']
-    if uploaded_file.filename != '':
-        uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
-
-    return redirect(url_for("add_answer", question_id=question_id, uploaded_file=uploaded_file))'''
-
-
 @app.route("/question/<int:question_id>/new_answer/post", methods=["POST"])
 def add_answer_post(question_id):
-    answers = connection.read_csv("sample_data/answer.csv")
 
     new_answer = dict(request.form)
-    new_answer["id"] = data_handler.get_new_id(answers)
-    new_answer["submission_time"] = data_handler.get_current_timestamp()
-    new_answer["vote_number"] = 0
+    new_answer["submission_time"] = util.get_current_date_time()
     new_answer["question_id"] = question_id
+    new_answer["vote_number"] = 0
 
     uploaded_file = request.files['file']
     if uploaded_file.filename != '':
         uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
         new_answer["image"] = os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename)
 
-    answers.append(new_answer)
-    connection.write_csv("sample_data/answer.csv", answers)
+    answer_id = data_manager.add_answer(new_answer).get('id')
 
-    return redirect(url_for("display_question", question_id=question_id))
+    return redirect(url_for("display_question", question_id=question_id, answer_id=answer_id))
 
 
-@app.route("/question/<question_id>/new-answer", methods=["POST"])
-def edit_answer_post(answer_id):
-    return redirect(url_for("display_question"))
+@app.route("/question/<int:question_id>/<int:answer_id>/edit-answer")
+def edit_answer_get(question_id, answer_id):
+
+    question = data_manager.get_question_by_id(question_id)
+
+    answer = data_manager.get_answer_by_id(answer_id)
+
+    if answer is None:
+        return redirect(url_for("display_question", question_id=question_id))
+    else:
+        return render_template("add_update_answer.html", question=question, answer=answer)
+
+
+@app.route("/question/<int:question_id>/<int:answer_id>/edit-answer", methods=["POST"])
+def edit_answer_post(question_id, answer_id):
+
+    edited_answer = dict(request.form)
+
+    uploaded_file = request.files['file']
+    edited_answer['image'] = swap_image(uploaded_file)
+
+    data_manager.update_answer(answer_id, edited_answer)
+
+    return redirect(url_for("display_question", question_id=question_id, answer_id=answer_id))
 
 
 @app.route("/answer/<question_id>/<answer_id>/delete")
@@ -257,6 +266,16 @@ def new_question_comment(question_id):
         return render_template("add_update_comment.html", question_id=question_id)
 
 
+@app.route('/question/<question_id>/new-tag', methods=["GET", "POST"])
+def add_tag(question_id):
+    if request.method == "POST":
+        tag_name = dict(request.form)
+        data_manager.add_question_tag(tag_name)
+
+        return redirect(url_for("display_question", question_id=question_id))
+
+    if request.method == "GET":
+        return render_template("add_tag.html", question_id=question_id)
 
 
 if __name__ == "__main__":
