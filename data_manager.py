@@ -339,12 +339,11 @@ def update_answer(cursor: RealDictCursor, answer_id: int, edited_answer: dict):
     cursor.execute(query, edited_answer)
 
 
-'''def add_question_tag(cursor: RealDictCursor, tag_details: dict):
+@database_common.connection_handler
+def add_question_tag(cursor: RealDictCursor, tag_name: dict):
     query = f"""
-        INSERT INTO question_tag (question_id, tag_id)
-        VALUES (%(question_id))
-        """
+        INSERT INTO tag ("name")
+        VALUES {tag_name["tag_message"]}
+        RETURNING id"""
     cursor.execute(query)
-    return'''
-
-
+    return
