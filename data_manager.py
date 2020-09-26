@@ -343,7 +343,7 @@ def update_answer(cursor: RealDictCursor, answer_id: int, edited_answer: dict):
 def add_question_tag(cursor: RealDictCursor, tag_name: dict):
     query = f"""
         INSERT INTO tag ("name")
-        VALUES {tag_name["tag_message"]}
+        VALUES (%(tag_message)s)
         RETURNING id"""
-    cursor.execute(query)
+    cursor.execute(query, tag_name)
     return

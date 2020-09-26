@@ -266,19 +266,16 @@ def new_question_comment(question_id):
         return render_template("add_update_comment.html", question_id=question_id)
 
 
-
-
-
-'''@app.route('/question/<question_id>/new-tag', methods=["GET", "POST"])
-def add_tag_to_question(question_id):
+@app.route('/question/<question_id>/new-tag', methods=["GET", "POST"])
+def add_tag(question_id):
     if request.method == "POST":
-        tag_details = dict(request.form)
+        tag_name = dict(request.form)
+        data_manager.add_question_tag(tag_name)
 
-        data_manager.add_question_tag(tag_details)
         return redirect(url_for("display_question", question_id=question_id))
 
     if request.method == "GET":
-        return render_template("add_update_comment.html", question_id=question_id)'''
+        return render_template("add_tag.html", question_id=question_id)
 
 
 if __name__ == "__main__":
