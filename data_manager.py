@@ -311,7 +311,30 @@ def get_answer_comments_by_question_id(cursor: RealDictCursor, question_id: int)
 def add_answer(cursor: RealDictCursor, new_answer: dict):
     query = f"""
             INSERT INTO  answer (submission_time, question_id, message, image)
-            VALUES ('{new_answer["submission_time"]}', {new_answer["question_id"]}, '{new_answer["message"]}', '{new_answer["image"]}')
+            VALUES (%(submission_time)s, %(question_id)s, %(message)s, %(image)s)
+            RETURNING id
             """
+    cursor.execute(query, new_answer)
+    return cursor.fetchone()
+
+@database_common.connection_handler
+def get_answer_by_id(cursor: RealDictCursor, answer_id: int) -> list:
+    query = f"""
+        SELECT *
+        FROM answer
+        WHERE id = {answer_id}
+        """
     cursor.execute(query)
-    return
+    return cursor.fetchone()
+
+
+@database_common.connection_handler
+def update_answer(cursor: RealDictCursor, answer_id: int, edited_answer: dict):
+    query = f"""
+            UPDATE answer
+            SET message = %(message)s, image = %(image)s
+            WHERE id = {answer_id}
+            """
+    cursor.execute(query, edited_answer)
+
+
