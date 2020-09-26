@@ -108,6 +108,8 @@ def add_question_get():
 def add_question_post():
     new_question = dict(request.form)
     new_question['submission_time'] = util.get_current_date_time()
+    new_question["view_number"] = 0
+    new_question["vote_number"] = 0
 
     uploaded_file = request.files['file']
     new_question['image'] = swap_image(uploaded_file)
@@ -137,9 +139,6 @@ def edit_question_post(question_id):
     return redirect(url_for("display_question", question_id=question_id))
 
 
-
-
-
 @app.route("/question/<question_id>/delete")
 def delete_question(question_id):
 
@@ -165,7 +164,6 @@ def delete_question(question_id):
 def add_answer(question_id):
 
     question = data_manager.get_question_by_id(question_id)
-
     new_answer = \
         {
             "answer_id": None,
@@ -185,6 +183,7 @@ def add_answer_post(question_id):
     new_answer = dict(request.form)
     new_answer["submission_time"] = util.get_current_date_time()
     new_answer["question_id"] = question_id
+    new_answer["vote_number"] = 0
 
     uploaded_file = request.files['file']
     if uploaded_file.filename != '':
@@ -265,6 +264,21 @@ def new_question_comment(question_id):
         return redirect(url_for("display_question", question_id=question_id))
     if request.method == "GET":
         return render_template("add_update_comment.html", question_id=question_id)
+
+
+
+
+
+'''@app.route('/question/<question_id>/new-tag', methods=["GET", "POST"])
+def add_tag_to_question(question_id):
+    if request.method == "POST":
+        tag_details = dict(request.form)
+
+        data_manager.add_question_tag(tag_details)
+        return redirect(url_for("display_question", question_id=question_id))
+
+    if request.method == "GET":
+        return render_template("add_update_comment.html", question_id=question_id)'''
 
 
 if __name__ == "__main__":

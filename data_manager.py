@@ -83,8 +83,8 @@ def get_answers_by_question_id(cursor: RealDictCursor, question_id: int) -> list
 @database_common.connection_handler
 def add_question(cursor: RealDictCursor, new_question: dict) -> dict:
     query = f"""
-        INSERT INTO question (title, message, image, submission_time)
-        VALUES (%(title)s, %(message)s, %(image)s, %(submission_time)s)
+        INSERT INTO question (title, message, image, submission_time, view_number, vote_number)
+        VALUES (%(title)s, %(message)s, %(image)s, %(submission_time)s, %(view_number)s, %(vote_number)s)
         RETURNING id
         """
     cursor.execute(query, new_question)
@@ -310,12 +310,13 @@ def get_answer_comments_by_question_id(cursor: RealDictCursor, question_id: int)
 @database_common.connection_handler
 def add_answer(cursor: RealDictCursor, new_answer: dict):
     query = f"""
-            INSERT INTO  answer (submission_time, question_id, message, image)
-            VALUES (%(submission_time)s, %(question_id)s, %(message)s, %(image)s)
+            INSERT INTO  answer (submission_time, vote_number, question_id, message, image)
+            VALUES (%(submission_time)s, %(vote_number)s, %(question_id)s, %(message)s, %(image)s)
             RETURNING id
             """
     cursor.execute(query, new_answer)
     return cursor.fetchone()
+
 
 @database_common.connection_handler
 def get_answer_by_id(cursor: RealDictCursor, answer_id: int) -> list:
@@ -336,5 +337,14 @@ def update_answer(cursor: RealDictCursor, answer_id: int, edited_answer: dict):
             WHERE id = {answer_id}
             """
     cursor.execute(query, edited_answer)
+
+
+'''def add_question_tag(cursor: RealDictCursor, tag_details: dict):
+    query = f"""
+        INSERT INTO question_tag (question_id, tag_id)
+        VALUES (%(question_id))
+        """
+    cursor.execute(query)
+    return'''
 
 
