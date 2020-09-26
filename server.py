@@ -191,12 +191,12 @@ def add_answer_post(question_id):
         uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
         new_answer["image"] = os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename)
 
-    data_manager.add_answer(new_answer)
+    answer_id = data_manager.add_answer(new_answer).get('id')
 
-    return redirect(url_for("display_question", question_id=question_id))
+    return redirect(url_for("display_question", question_id=question_id, answer_id=answer_id))
 
 
-@app.route("/question/<question_id>/<answer_id>/edit-answer")
+@app.route("/question/<int:question_id>/<int:answer_id>/edit-answer")
 def edit_answer_get(question_id, answer_id):
 
     question = data_manager.get_question_by_id(question_id)
