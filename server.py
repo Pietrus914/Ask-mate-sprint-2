@@ -123,9 +123,6 @@ def edit_question_post(question_id):
     return redirect(url_for("display_question", question_id=question_id))
 
 
-
-
-
 @app.route("/question/<question_id>/delete")
 def delete_question(question_id):
 

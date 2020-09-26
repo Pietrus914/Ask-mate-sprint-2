@@ -73,6 +73,7 @@ def add_question(cursor: RealDictCursor, new_question: dict) -> dict:
     query = f"""
         INSERT INTO question (title, message, image, submission_time)
         VALUES (%(title)s, %(message)s, %(image)s, %(submission_time)s)
+--         VALUES ('{new_question['title']}', ...)
         RETURNING id
         """
     cursor.execute(query, new_question)
