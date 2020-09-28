@@ -93,8 +93,8 @@
                             <button type="submit"  id="vote_down" name = "vote_answer" value="vote_down">VOTE DOWN</button>
                         </form></td>
                     <td>
-                        <a href="{{ url_for("new_question_comment", question_id=question.id) }}">
-                            <button type="button" name="add_comment" id="add_question_comment">ADD COMMENT</button></a><br>
+                        <a href="{{ url_for("new_answer_comment", answer_id=answer.id) }}">
+                            <button type="button" name="add_comment" id="add_answer_comment">ADD COMMENT</button></a><br>
                         <a href="{{ url_for("edit_answer_get", question_id=question.id, answer_id=answer.id) }}">
                             <button type="button" name="edit_answer" id="edit_answer">EDIT ANSWER</button></a><br>
                         <a href="{{ url_for("delete_answer",question_id=question.id, answer_id=answer.id) }}">

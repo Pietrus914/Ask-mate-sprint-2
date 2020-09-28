@@ -1,0 +1,18 @@
+{% extends 'layout_comment.html' %}
+
+
+{% block title %}
+{#    {%  if question_id %}#}
+{#        Add comment to question#}
+{#    {% elif answer_id %}#}
+        Add comment to answer
+{#    {% endif %}#}
+{% endblock %}
+
+
+
+{% block action %}action="{{ url_for('new_answer_comment', answer_id=answer_id) }}"{% endblock %}
+
+{% block message %}Write your comment to answer:{% endblock %}
+
+{% block  hidden %}name="answer_id" value="{{ answer_id }}"{% endblock %}

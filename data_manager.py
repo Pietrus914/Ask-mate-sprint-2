@@ -262,6 +262,26 @@ def add_question_comment(cursor: RealDictCursor, details: dict):
     return
 
 @database_common.connection_handler
+def get_question_id_by_answer_id(cursor: RealDictCursor, answer_id: int):
+    query = f"""
+        SELECT question_id 
+        FROM answer
+        WHERE id = {answer_id}"""
+    cursor.execute(query)
+    return cursor.fetchone()["question_id"]
+
+
+
+@database_common.connection_handler
+def add_answer_comment(cursor: RealDictCursor, details: dict):
+    query = f"""
+        INSERT INTO comment (answer_id, message, submission_time)
+        VALUES ({details["answer_id"]}, '{details["comment_message"]}', '{details["submission_time"]}') """
+    cursor.execute(query)
+    return
+
+
+@database_common.connection_handler
 def get_comments_by_question_id(cursor: RealDictCursor, question_id: int):
     query = f"""
             SELECT *

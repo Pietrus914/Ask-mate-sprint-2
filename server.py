@@ -266,6 +266,21 @@ def new_question_comment(question_id):
         return render_template("add_update_comment.html", question_id=question_id)
 
 
+@app.route('/answer/<answer_id>/new-comment', methods=["GET", "POST"])
+def new_answer_comment(answer_id):
+    if request.method == "POST":
+        details = dict(request.form)
+        details["submission_time"] = util.get_current_date_time()
+
+        data_manager.add_answer_comment(details)
+        question_id = data_manager.get_question_id_by_answer_id(answer_id)
+        return redirect(url_for("display_question", question_id=question_id))
+
+    if request.method == "GET":
+        return render_template("add_update_answer_comment.html", answer_id=answer_id)
+
+
+
 @app.route('/question/<question_id>/new-tag', methods=["GET", "POST"])
 def add_tag(question_id):
     if request.method == "POST":

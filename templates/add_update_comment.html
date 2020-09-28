@@ -1,19 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Add comment to question</title>
-</head>
-<body>
+{% extends 'layout_comment.html' %}
 
 
-    <form action="{{ url_for('new_question_comment', question_id=question_id) }}" method="POST">
-        <label for="comment_message">Write your comment to question:</label><br>
-        <textarea id="comment_message"  rows="7" type="text" maxlength="500" name="comment_message" placeholder="Write your comment"></textarea><br>
-        <input type="hidden" name="question_id" value="{{ question_id }}"><br>
-        <button type="submit">SUBMIT</button>
+{% block title %}
+{#    {%  if question_id %}#}
+        Add comment to question
+{#    {% elif answer_id %}#}
+{#        Add comment to answer#}
+{#    {% endif %}#}
+{% endblock %}
 
-    </form>
+{% block action %}action="{{ url_for('new_question_comment', question_id=question_id) }}"{% endblock %}
 
-</body>
-</html>
+{% block message %}Write your comment to question:{% endblock %}
+
+{% block  hidden %}name="question_id" value="{{ question_id }}"{% endblock %}
+
+
+{#{% endif %}#}
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Add comment to question</title>#}
+{#</head>#}
+{#<body>#}
+{##}
+{##}
+{#    <form action="{{ url_for('new_question_comment', question_id=question_id) }}" method="POST">#}
+{#        <label for="comment_message">Write your comment to question:</label><br>#}
+{#        <textarea id="comment_message"  rows="7" type="text" maxlength="500" name="comment_message" placeholder="Write your comment"></textarea><br>#}
+{#        <input type="hidden" name="question_id" value="{{ question_id }}"><br>#}
+{#        <button type="submit">SUBMIT</button>#}
+{##}
+{#    </form>#}
+{##}
+{#</body>#}
+{#</html>#}

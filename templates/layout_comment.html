@@ -2,9 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-$END$
+    <form {% block action %}{% endblock %} method="POST">
+        <label for="comment_message">{% block message %}{% endblock %}</label><br>
+        <textarea id="comment_message"  rows="7" type="text" maxlength="500" name="comment_message" placeholder="Write your comment"></textarea><br>
+        <input type="hidden" {% block hidden %}{% endblock %} ><br>
+        <button type="submit">SUBMIT</button>
+    </form>
+
+
 </body>
 </html>
