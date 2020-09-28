@@ -248,6 +248,15 @@ def delete_question(cursor: RealDictCursor, question_id: int):
 
 
 @database_common.connection_handler
+def get_comment_by_id(cursor: RealDictCursor, comment_id: int):
+    query = f"""
+                SELECT * from comment
+                WHERE id = {comment_id}"""
+    cursor.execute(query)
+    return cursor.fetchone()
+
+
+@database_common.connection_handler
 # def add_question_comment(cursor: RealDictCursor, details: dict, fk_id, column: str):
 #     query = f"""
 #         INSERT INTO comment ({column}, message, submission_time)
@@ -261,6 +270,20 @@ def add_question_comment(cursor: RealDictCursor, details: dict):
     cursor.execute(query)
     return
 
+
+@database_common.connection_handler
+def update_question_comment(cursor: RealDictCursor, details: dict, comment_id):
+    query = f"""
+            UPDATE comment 
+            SET message = '{details["comment_message"]}', 
+                submission_time = '{details["submission_time"]}'
+            WHERE id = {comment_id}
+            """
+    cursor.execute(query)
+    return
+
+
+
 @database_common.connection_handler
 def get_question_id_by_answer_id(cursor: RealDictCursor, answer_id: int):
     query = f"""
@@ -269,6 +292,19 @@ def get_question_id_by_answer_id(cursor: RealDictCursor, answer_id: int):
         WHERE id = {answer_id}"""
     cursor.execute(query)
     return cursor.fetchone()["question_id"]
+
+
+@database_common.connection_handler
+def get_question_by_comment_id(cursor: RealDictCursor, comment_id: int):
+    query = f"""
+        SELECT *
+        FROM question
+        WHERE id IN (
+        SELECT question_id
+        FROM comment
+        WHERE id = {comment_id})"""
+    cursor.execute(query)
+    return cursor.fetchone()
 
 
 

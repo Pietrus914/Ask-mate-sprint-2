@@ -45,6 +45,12 @@
                                 <td>{{ comment.submission_time }}</td>
                                 <td>{{ comment.message }}</td>
                                 <td>{{ comment.edited_count }}</td>
+                                <td>
+                                    <a href="{{ url_for('update_question_comment', comment_id=comment.id) }}">
+                                        <button type="button" name="update_question_comment"
+                                                id="update_question_comment">UPDATE COMMENT</button>
+                                    </a>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>

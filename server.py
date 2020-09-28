@@ -263,7 +263,34 @@ def new_question_comment(question_id):
         data_manager.add_question_comment(details)
         return redirect(url_for("display_question", question_id=question_id))
     if request.method == "GET":
-        return render_template("add_update_comment.html", question_id=question_id)
+        question = data_manager.get_question_by_id(question_id)
+        return render_template("add_comment.html",
+                               item=question,
+                               item_type = "question",
+                               url = 'new_question_comment',
+                               item_id = 'question_id')
+
+
+@app.route('/comment/<comment_id>/edit', methods=["GET", "POST"])
+def update_question_comment(comment_id):
+    if request.method == "POST":
+        details = dict(request.form)
+        details["submission_time"] = util.get_current_date_time()
+
+        data_manager.update_question_comment(details, comment_id)
+        # question_id = data_manager.get_question_id_by_comment_id(comment_id)
+        return redirect(url_for("display_question", question_id=details["question_id"]))
+    if request.method == "GET":
+        comment = data_manager.get_comment_by_id(comment_id)
+        # question_id = data_manager.get_question_id_by_comment_id(comment_id)
+        question = data_manager.get_question_by_comment_id(comment_id)
+        return render_template("update_comment.html",
+                               comment=comment,
+                               item=question,
+                               item_type = "question",
+                               url = 'update_question_comment')
+
+
 
 
 @app.route('/answer/<answer_id>/new-comment', methods=["GET", "POST"])
@@ -277,7 +304,12 @@ def new_answer_comment(answer_id):
         return redirect(url_for("display_question", question_id=question_id))
 
     if request.method == "GET":
-        return render_template("add_update_answer_comment.html", answer_id=answer_id)
+        answer = data_manager.get_answer_by_id(answer_id)
+        return render_template("add_answer_comment.html",
+                               item=answer,
+                               item_type="answer",
+                               url = 'new_answer_comment',
+                               item_id = 'answer_id')
 
 
 

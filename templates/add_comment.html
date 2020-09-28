@@ -1,0 +1,108 @@
+{% extends 'layout_comment.html' %}
+
+
+{% block title %}Add comment to {{ item_type }}{% endblock %}
+
+
+{% block item %}
+    <h1>{{ item_type }}</h1>
+    <p>{{ item.message }}</p>
+{% endblock %}
+
+{% block action %}action="{{ url_for(url, question_id=item.id) }}"{% endblock %}
+
+{% block message %}Write your comment to {{ item_type }}:{% endblock %}
+
+{% block  hidden %}name="{{ item_type }}_id" value="{{ item.id }}"{% endblock %}
+
+
+
+
+
+{#{% block title %}Update comment to {{ item_type }}{% endblock %}#}
+{##}
+{#{% block item %}#}
+{#    <h1>{{ item_type }}</h1>#}
+{#    <p>{{ item.message }}</p>#}
+{#{% endblock %}#}
+
+{#{% block comment %}{{ comment.message }}{% endblock %}#}
+
+
+{#{% block action %}action = "{{ url_for('update_question_comment', comment_id=comment.id) }}"{% endblock %}#}
+{##}
+{#{% block label %}Update comment to {{ item_type }}{% endblock %}#}
+{##}
+{#{% block message %}{{ comment.message }}{% endblock %}#}
+{##}
+{#{% block hidden %}name="{{ item_type }}_id" value="{{ item.id}}"{% endblock %}#}
+
+{#{% block title %}#}
+{#    {%  if comment %}#}
+{#        Update comment to question#}
+{#    {% else  %}#}
+{#        Add comment to question#}
+{#    {% endif %}#}
+{#{% endblock %}#}
+{##}
+{#{% block action %}#}
+{#    {% if comment %}#}
+{#        action = "{{ url_for('update_question_comment', comment_id=comment.id) }}"#}
+{#    {% else %}#}
+{#        action="{{ url_for('new_question_comment', question_id=question_id) }}"#}
+{#    {% endif %}#}
+{#{% endblock %}#}
+{##}
+{#{% block label %}#}
+{#    {% if comment %}#}
+{#        Update comment to question:#}
+{#    {% else %}#}
+{#        Write your comment to question:#}
+{#    {% endif %}#}
+{#{% endblock %}#}
+{##}
+{##}
+{##}
+{#{% block message %}#}
+{#    {% if comment %}{{ comment.message }}#}
+{#    {% else %}#}
+{#        Write your comment to question:#}
+{#    {% endif %}#}
+{#{% endblock %}#}
+{##}
+{##}
+{#{% block  hidden %}#}
+{#    {% if comment %}#}
+{#        name="comment_id" value="{{ comment.id }}"#}
+{#    {% else %}#}
+{#        name="question_id" value="{{ question_id }}"#}
+{#    {% endif %}#}
+{#{% endblock %}#}
+
+
+
+
+
+
+
+
+{#{% endif %}#}
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Add comment to question</title>#}
+{#</head>#}
+{#<body>#}
+{##}
+{##}
+{#    <form action="{{ url_for('new_question_comment', question_id=question_id) }}" method="POST">#}
+{#        <label for="comment_message">Write your comment to question:</label><br>#}
+{#        <textarea id="comment_message"  rows="7" type="text" maxlength="500" name="comment_message" placeholder="Write your comment"></textarea><br>#}
+{#        <input type="hidden" name="question_id" value="{{ question_id }}"><br>#}
+{#        <button type="submit">SUBMIT</button>#}
+{##}
+{#    </form>#}
+{##}
+{#</body>#}
+{#</html>#}

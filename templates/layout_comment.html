@@ -5,9 +5,18 @@
   <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+    <p>
+        {% block item %}{% endblock %}
+    </p>
+
+{#    <p>#}
+{#        {% block comment %}{% endblock %}#}
+{#    </p>#}
+
     <form {% block action %}{% endblock %} method="POST">
-        <label for="comment_message">{% block message %}{% endblock %}</label><br>
-        <textarea id="comment_message"  rows="7" type="text" maxlength="500" name="comment_message" placeholder="Write your comment"></textarea><br>
+        <label for="comment_message">{% block label %}{% endblock %}</label><br>
+        <textarea id="comment_message"  rows="7" type="text" maxlength="500" name="comment_message"
+                  placeholder="Write your comment">{% block message %}{% endblock %}</textarea><br>
         <input type="hidden" {% block hidden %}{% endblock %} ><br>
         <button type="submit">SUBMIT</button>
     </form>
