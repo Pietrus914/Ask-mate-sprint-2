@@ -272,7 +272,7 @@ def add_question_comment(cursor: RealDictCursor, details: dict):
 
 
 @database_common.connection_handler
-def update_question_comment(cursor: RealDictCursor, details: dict, comment_id):
+def update_comment(cursor: RealDictCursor, details: dict, comment_id):
     query = f"""
             UPDATE comment 
             SET message = '{details["comment_message"]}', 
@@ -305,6 +305,27 @@ def get_question_by_comment_id(cursor: RealDictCursor, comment_id: int):
         WHERE id = {comment_id})"""
     cursor.execute(query)
     return cursor.fetchone()
+
+
+@database_common.connection_handler
+def get_answer_by_comment_id(cursor: RealDictCursor, comment_id: int):
+    query = f"""
+        SELECT *
+        FROM answer
+        WHERE id IN (
+        SELECT answer_id
+        FROM comment
+        WHERE id = {comment_id})"""
+    cursor.execute(query)
+    return cursor.fetchone()
+
+
+def get_question_id_by_comment_id(comment_id):
+    if get_question_by_comment_id(comment_id) != None :
+        return get_question_by_comment_id(comment_id).get("id")
+    else:
+        answer = get_answer_by_comment_id(comment_id)
+        return get_question_id_by_answer_id(answer["id"])
 
 
 

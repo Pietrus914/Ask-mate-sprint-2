@@ -277,18 +277,28 @@ def update_question_comment(comment_id):
         details = dict(request.form)
         details["submission_time"] = util.get_current_date_time()
 
-        data_manager.update_question_comment(details, comment_id)
-        # question_id = data_manager.get_question_id_by_comment_id(comment_id)
-        return redirect(url_for("display_question", question_id=details["question_id"]))
+        data_manager.update_comment(details, comment_id)
+        question_id = data_manager.get_question_id_by_comment_id(comment_id)
+        return redirect(url_for("display_question", question_id=question_id))
     if request.method == "GET":
         comment = data_manager.get_comment_by_id(comment_id)
         # question_id = data_manager.get_question_id_by_comment_id(comment_id)
-        question = data_manager.get_question_by_comment_id(comment_id)
-        return render_template("update_comment.html",
-                               comment=comment,
-                               item=question,
-                               item_type = "question",
-                               url = 'update_question_comment')
+        if comment.get("question_id") != None:
+            question = data_manager.get_question_by_comment_id(comment_id)
+            return render_template("update_comment.html",
+                                   comment=comment,
+                                   item=question,
+                                   item_type = "question",
+                                   url = 'update_question_comment')
+        elif comment.get("answer_id") != None:
+            answer = data_manager.get_answer_by_comment_id(comment_id)
+            return render_template("update_comment.html",
+                                   comment=comment,
+                                   item=answer,
+                                   item_type="answer",
+                                   url='update_question_comment')
+
+
 
 
 
