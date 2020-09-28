@@ -276,7 +276,11 @@ def update_comment(cursor: RealDictCursor, details: dict, comment_id):
     query = f"""
             UPDATE comment 
             SET message = '{details["comment_message"]}', 
-                submission_time = '{details["submission_time"]}'
+                submission_time = '{details["submission_time"]}',
+                edited_count = CASE 
+                    WHEN edited_count IS NULL  THEN 1
+                    ELSE edited_count + 1
+                END
             WHERE id = {comment_id}
             """
     cursor.execute(query)
