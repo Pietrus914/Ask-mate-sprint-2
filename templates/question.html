@@ -50,9 +50,9 @@
                                     {% endif %}
                                 </td>
                                 <td>
-                                    <a href="{{ url_for('update_question_comment', comment_id=comment.id) }}">
-                                        <button type="button" name="update_question_comment"
-                                                id="update_question_comment">UPDATE COMMENT</button>
+                                    <a href="{{ url_for('update_comment_get', comment_id=comment.id) }}">
+                                        <button type="button" name="update_comment"
+                                                id="update_comment">UPDATE COMMENT</button>
                                     </a>
                                 </td>
                                 <td>
@@ -138,9 +138,9 @@
                                                 <td>{{ comment.message }}</td>
                                                 <td>Edited {{ comment.edited_count }} time(s)</td>
                                                 <td>
-                                                    <a href="{{ url_for('update_question_comment', comment_id=comment.id) }}">
-                                                        <button type="button" name="update_question_comment"
-                                                            id="update_question_comment">UPDATE COMMENT</button>
+                                                    <a href="{{ url_for('update_comment_get', comment_id=comment.id) }}">
+                                                        <button type="button" name="update__comment"
+                                                            id="update_comment">UPDATE COMMENT</button>
                                                     </a>
                                                 </td>
                                                 <td>
