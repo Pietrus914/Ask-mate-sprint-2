@@ -287,6 +287,14 @@ def update_comment(cursor: RealDictCursor, details: dict, comment_id):
     return
 
 
+@database_common.connection_handler
+def delete_comment(cursor: RealDictCursor, comment_id: int):
+    query = f"""
+        DELETE FROM comment
+        WHERE id = {comment_id} """
+    cursor.execute(query)
+    return
+
 
 @database_common.connection_handler
 def get_question_id_by_answer_id(cursor: RealDictCursor, answer_id: int):

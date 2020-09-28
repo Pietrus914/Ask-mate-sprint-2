@@ -55,6 +55,11 @@
                                                 id="update_question_comment">UPDATE COMMENT</button>
                                     </a>
                                 </td>
+                                <td>
+                                    <a href="{{ url_for('delete_comment', comment_id=comment.id) }}">
+                                        <button type="button" onclick="return confirm('Are you sure?')">DELETE</button>
+                                    </a>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -136,6 +141,11 @@
                                                     <a href="{{ url_for('update_question_comment', comment_id=comment.id) }}">
                                                         <button type="button" name="update_question_comment"
                                                             id="update_question_comment">UPDATE COMMENT</button>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a href="{{ url_for('delete_comment', comment_id=comment.id) }}">
+                                                        <button type="button" onclick="return confirm('Are you sure?')">DELETE</button>
                                                     </a>
                                                 </td>
                                             </tr>
