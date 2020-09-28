@@ -44,7 +44,22 @@
                             <tr>
                                 <td>{{ comment.submission_time }}</td>
                                 <td>{{ comment.message }}</td>
-                                <td>{{ comment.edited_count }}</td>
+                                <td>
+                                    {% if comment.edited_count %}
+                                        Edited {{ comment.edited_count }} time(s)
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{{ url_for('update_comment_get', comment_id=comment.id) }}">
+                                        <button type="button" name="update_comment"
+                                                id="update_comment">UPDATE COMMENT</button>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{{ url_for('delete_comment', comment_id=comment.id) }}">
+                                        <button type="button" onclick="return confirm('Are you sure?')">DELETE</button>
+                                    </a>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -54,7 +69,6 @@
     <p>
         <a href="{{ url_for("add_tag", question_id=question.id) }}">
             <button type="button" name="add_tag" id="add_question_tag">ADD TAG</button></a>
-        <br><br>
         <a href="{{ url_for("new_question_comment", question_id=question.id) }}">
             <button type="button" name="add_comment" id="add_question_comment">ADD COMMENT</button></a>
         <a href="{{ url_for("add_answer",question_id=question.id) }}">
@@ -93,19 +107,20 @@
                             <button type="submit"  id="vote_down" name = "vote_answer" value="vote_down">VOTE DOWN</button>
                         </form></td>
                     <td>
-                        <a href="{{ url_for("new_question_comment", question_id=question.id) }}">
-                            <button type="button" name="add_comment" id="add_question_comment">ADD COMMENT</button></a><br>
+                        <a href="{{ url_for("new_answer_comment", answer_id=answer.id) }}">
+                            <button type="button" name="add_comment" id="add_answer_comment">ADD COMMENT</button></a><br>
                         <a href="{{ url_for("edit_answer_get", question_id=question.id, answer_id=answer.id) }}">
                             <button type="button" name="edit_answer" id="edit_answer">EDIT ANSWER</button></a><br>
                         <a href="{{ url_for("delete_answer",question_id=question.id, answer_id=answer.id) }}">
                             <button type="button" name="delete_answer" id="delete_answer" >DELETE ANSWER</button></a>
                     </td>
                 </tr>
+                {% if answer_comments|length > 0 %}
                 <tr>
                     <td></td>
                     <td colspan="4">
                         <p>
-                            {% if answer_comments|length > 0 %}
+{#                            {% if answer_comments|length > 0 %}#}
                             <table border="1" style="margin-left: 40px">
                                 <thead><strong>COMMENTS</strong></thead>
 
@@ -121,16 +136,28 @@
                                             <tr>
                                                 <td>{{ comment.submission_time }}</td>
                                                 <td>{{ comment.message }}</td>
-                                                <td>{{ comment.edited_count }}</td>
+                                                <td>Edited {{ comment.edited_count }} time(s)</td>
+                                                <td>
+                                                    <a href="{{ url_for('update_comment_get', comment_id=comment.id) }}">
+                                                        <button type="button" name="update__comment"
+                                                            id="update_comment">UPDATE COMMENT</button>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a href="{{ url_for('delete_comment', comment_id=comment.id) }}">
+                                                        <button type="button" onclick="return confirm('Are you sure?')">DELETE</button>
+                                                    </a>
+                                                </td>
                                             </tr>
                                         {% endif %}
                                     {% endfor %}
                                 </tbody>
                             </table>
-                            {% endif %}
+{#                            {% endif %}#}
                         </p>
                     </td>
                 </tr>
+                {% endif %}
                 {% endfor %}
             </tbody>
         </table>
