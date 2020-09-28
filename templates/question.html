@@ -69,7 +69,6 @@
     <p>
         <a href="{{ url_for("add_tag", question_id=question.id) }}">
             <button type="button" name="add_tag" id="add_question_tag">ADD TAG</button></a>
-        <br><br>
         <a href="{{ url_for("new_question_comment", question_id=question.id) }}">
             <button type="button" name="add_comment" id="add_question_comment">ADD COMMENT</button></a>
         <a href="{{ url_for("add_answer",question_id=question.id) }}">
@@ -116,11 +115,12 @@
                             <button type="button" name="delete_answer" id="delete_answer" >DELETE ANSWER</button></a>
                     </td>
                 </tr>
+                {% if answer_comments|length > 0 %}
                 <tr>
                     <td></td>
                     <td colspan="4">
                         <p>
-                            {% if answer_comments|length > 0 %}
+{#                            {% if answer_comments|length > 0 %}#}
                             <table border="1" style="margin-left: 40px">
                                 <thead><strong>COMMENTS</strong></thead>
 
@@ -153,10 +153,11 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
-                            {% endif %}
+{#                            {% endif %}#}
                         </p>
                     </td>
                 </tr>
+                {% endif %}
                 {% endfor %}
             </tbody>
         </table>

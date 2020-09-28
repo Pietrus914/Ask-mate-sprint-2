@@ -9,7 +9,7 @@
     <p>{{ item.message }}</p>
 {% endblock %}
 
-{% block action %}action="{{ url_for(url, question_id=item.id) }}"{% endblock %}
+{% block action %}action="{{ url }}"{% endblock %}
 
 {% block message %}Write your comment to {{ item_type }}:{% endblock %}
 

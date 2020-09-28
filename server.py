@@ -267,8 +267,8 @@ def new_question_comment(question_id):
         return render_template("add_comment.html",
                                item=question,
                                item_type = "question",
-                               url = 'new_question_comment',
-                               item_id = 'question_id')
+                               url = url_for('new_question_comment', question_id=question_id))
+                               # item_id = 'question_id')
 
 
 @app.route('/comment/<comment_id>/edit', methods=["POST"])
@@ -291,17 +291,17 @@ def update_comment_get(comment_id):
         return render_template("update_comment.html",
                                comment=comment,
                                item=question,
-                               item_type = "question",
+                               item_type = "question")
                                # url_forr = url_for('update_question_comment', question_id = question["id"]),
-                               url = 'update_comment_post')
+                               # url = 'update_comment_post')
 
     elif comment.get("answer_id") != None:
         answer = data_manager.get_answer_by_comment_id(comment_id)
         return render_template("update_comment.html",
                                comment=comment,
                                item=answer,
-                               item_type="answer",
-                               url='update_comment_post')
+                               item_type="answer")
+                               # url='update_comment_post')
 
 
 
@@ -325,11 +325,11 @@ def new_answer_comment(answer_id):
 
     if request.method == "GET":
         answer = data_manager.get_answer_by_id(answer_id)
-        return render_template("add_answer_comment.html",
+        return render_template("add_comment.html",
                                item=answer,
                                item_type="answer",
-                               url = 'new_answer_comment',
-                               item_id = 'answer_id')
+                               url = url_for('new_answer_comment', answer_id =answer_id ))
+                               # item_id = 'answer_id')
 
 
 
