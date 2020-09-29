@@ -81,13 +81,16 @@ def display_question(question_id):
     answer_comments = data_manager.get_answer_comments_by_question_id(question_id)
     answers_headers = ["Votes' number", "Answer", "Submission time"]
     comment_headers = ["Submission time", "Message", "Edition counter"]
+    #question_tag = data_manager.get_tag_by_question_id(question_id)
 
     return render_template("question.html", question=question,
                            answers=answers,
                            answers_headers=answers_headers,
                            question_comments=question_comments,
                            comment_headers=comment_headers,
-                           answer_comments=answer_comments)
+                           answer_comments=answer_comments,
+                           #question_tag=question_tag
+                           )
 
 
 @app.route("/add")
@@ -254,7 +257,7 @@ def answer_vote(question_id, answer_id):
     return redirect(url_for("display_question", question_id=question_id))
 
 
-@app.route('/question/<question_id>/new-comment', methods=["GET","POST"])
+@app.route('/question/<question_id>/new-comment', methods=["GET", "POST"])
 def new_question_comment(question_id):
     if request.method == "POST":
         details = dict(request.form)
@@ -263,16 +266,85 @@ def new_question_comment(question_id):
         data_manager.add_question_comment(details)
         return redirect(url_for("display_question", question_id=question_id))
     if request.method == "GET":
-        return render_template("add_update_comment.html", question_id=question_id)
+        question = data_manager.get_question_by_id(question_id)
+        return render_template("add_comment.html",
+                               item=question,
+                               item_type = "question",
+                               url = url_for('new_question_comment', question_id=question_id))
+                               # item_id = 'question_id')
+
+
+@app.route('/comment/<comment_id>/edit', methods=["POST"])
+def update_comment_post(comment_id):
+    if request.method == "POST":
+        details = dict(request.form)
+        details["submission_time"] = util.get_current_date_time()
+
+        data_manager.update_comment(details, comment_id)
+        question_id = data_manager.get_question_id_by_comment_id(comment_id)
+        return redirect(url_for("display_question", question_id=question_id))
+
+
+@app.route('/comment/<comment_id>/edit', methods=["GET"])
+def update_comment_get(comment_id):
+    comment = data_manager.get_comment_by_id(comment_id)
+    # question_id = data_manager.get_question_id_by_comment_id(comment_id)
+    if comment.get("question_id") != None:
+        question = data_manager.get_question_by_comment_id(comment_id)
+        return render_template("update_comment.html",
+                               comment=comment,
+                               item=question,
+                               item_type = "question")
+                               # url_forr = url_for('update_question_comment', question_id = question["id"]),
+                               # url = 'update_comment_post')
+
+    elif comment.get("answer_id") != None:
+        answer = data_manager.get_answer_by_comment_id(comment_id)
+        return render_template("update_comment.html",
+                               comment=comment,
+                               item=answer,
+                               item_type="answer")
+                               # url='update_comment_post')
+
+
+
+@app.route('/comments/<comment_id>/delete')
+def delete_comment(comment_id):
+    question_id = data_manager.get_question_id_by_comment_id(comment_id)
+    data_manager.delete_comment(comment_id)
+    return redirect(url_for("display_question", question_id=question_id))
+
+
+
+@app.route('/answer/<answer_id>/new-comment', methods=["GET", "POST"])
+def new_answer_comment(answer_id):
+    if request.method == "POST":
+        details = dict(request.form)
+        details["submission_time"] = util.get_current_date_time()
+
+        data_manager.add_answer_comment(details)
+        question_id = data_manager.get_question_id_by_answer_id(answer_id)
+        return redirect(url_for("display_question", question_id=question_id))
+
+    if request.method == "GET":
+        answer = data_manager.get_answer_by_id(answer_id)
+        return render_template("add_comment.html",
+                               item=answer,
+                               item_type="answer",
+                               url = url_for('new_answer_comment', answer_id =answer_id ))
+                               # item_id = 'answer_id')
+
 
 
 @app.route('/question/<question_id>/new-tag', methods=["GET", "POST"])
 def add_tag(question_id):
     if request.method == "POST":
-        tag_name = dict(request.form)
-        data_manager.add_question_tag(tag_name)
 
-        return redirect(url_for("display_question", question_id=question_id))
+        tag_name = dict(request.form)
+        tag_id = data_manager.add_question_tag(tag_name).get('id')
+        data_manager.add_question_tag_id(tag_id, question_id)
+
+        return redirect(url_for("display_question", question_id=question_id, tag_id=tag_id))
 
     if request.method == "GET":
         return render_template("add_tag.html", question_id=question_id)
