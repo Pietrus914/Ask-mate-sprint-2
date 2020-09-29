@@ -1,39 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-{#    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">#}
-    <script src="https://kit.fontawesome.com/05de84e1ca.js" crossorigin="anonymous"></script>
-    <style>
-        body {
-            color: #444747;
-            background-image: url('/static/images/ocean.jpg');
-            {#background-repeat: no-repeat;#}
-            {#background-size: cover;#}
-            {#font-family: "Heiti SC", sans-serifserif;#}
-            {#display: flex;#}
-            height: 100vh;
-            margin: 0;
-            padding: 0;
-        }
 
-        i.far {
-            color : #1ee0da
-        }
-    </style>
-    <title>Question</title>
+{% extends "index.html" %}
 
-</head>
-<body>
-    <h2>QUESTION: {{ question.title }}</h2>
+{% block page_title %}Question{% endblock %}
+
+{% block content %}
+<div class="middle">
+    <h2>QUESTION: {{ question.title }} </h2>
 
     <h3>{{ question.message }}</h3>
         {% if question.image %}
             {% if 'http' not in question.image %}
+                <p></p>
                 <img src="{{ url_for('get_img', filename=get_filename(question.image)) }}" alt="picture added by user" style="max-width: 25%">
     {#        <img src="/static/{{ question.image }}" alt="picture added by user" style="max-width: 25%"> dla naszych obrazków#}
             {% else %}
                 <img src="{{ question.image }}" alt="picture added by user" style="max-height: 25vw">
+                </p>
             {% endif %}
         {% endif %}
 
@@ -59,41 +41,41 @@
         </a><br>
     </p>
 
-            <p>
-                {% if question_comments|length > 0 %}
-                <table border="1" style="margin-left: 40px">
-                    <thead><strong>COMMENTS</strong></thead>
-
-                        <tr>
-                            {% for comment_header in comment_headers %}
-                                <th>{{ comment_header }}</th>
-                            {% endfor %}
-                        </tr>
-                    <tbody>
-
-                        {% for comment in question_comments %}
-                            <tr>
-                                <td>{{ comment.submission_time }}</td>
-                                <td>{{ comment.message }}</td>
-                                <td>
-                                    {% if comment.edited_count %}
-                                        Edited {{ comment.edited_count }} time(s)
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    <a href="{{ url_for('update_comment_get', comment_id=comment.id) }}">
-                                        <i class='far fa-edit'></i>
-                                    </a>
-                                    <a href="{{ url_for('delete_comment', comment_id=comment.id) }}" onclick="return confirm('Are you sure?')">
-                                        <i class='far fa-trash-alt'></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% endif %}
-            </p>
+{#            <p>#}
+{#                {% if question_comments|length > 0 %}#}
+{#                <table border="1" style="margin-left: 40px">#}
+{#                    <thead><strong>COMMENTS</strong></thead>#}
+{##}
+{#                        <tr>#}
+{#                            {% for comment_header in comment_headers %}#}
+{#                                <th>{{ comment_header }}</th>#}
+{#                            {% endfor %}#}
+{#                        </tr>#}
+{#                    <tbody>#}
+{##}
+{#                        {% for comment in question_comments %}#}
+{#                            <tr>#}
+{#                                <td>{{ comment.submission_time }}</td>#}
+{#                                <td>{{ comment.message }}</td>#}
+{#                                <td>#}
+{#                                    {% if comment.edited_count %}#}
+{#                                        Edited {{ comment.edited_count }} time(s)#}
+{#                                    {% endif %}#}
+{#                                </td>#}
+{#                                <td>#}
+{#                                    <a href="{{ url_for('update_comment_get', comment_id=comment.id) }}">#}
+{#                                        <i class='far fa-edit'></i>#}
+{#                                    </a>#}
+{#                                    <a href="{{ url_for('delete_comment', comment_id=comment.id) }}" onclick="return confirm('Are you sure?')">#}
+{#                                        <i class='far fa-trash-alt'></i>#}
+{#                                    </a>#}
+{#                                </td>#}
+{#                            </tr>#}
+{#                        {% endfor %}#}
+{#                    </tbody>#}
+{#                </table>#}
+{#                {% endif %}#}
+{#            </p>#}
 
 
     <p>
@@ -132,46 +114,44 @@
                         <a href="{{ url_for("delete_answer",question_id=question.id, answer_id=answer.id) }}"><i class='far fa-trash-alt'></i></a>
                     </td>
                 </tr>
-                {% if answer_comments|length > 0 %}
-                <tr>
-                    <td></td>
-                    <td colspan="4">
-                        <p>
-{#                            {% if answer_comments|length > 0 %}#}
-                            <table border="1" style="margin-left: 40px">
-                                <thead><strong>COMMENTS</strong></thead>
-
-                                    <tr>
-                                        {% for comment_header in comment_headers %}
-                                            <th>{{ comment_header }}</th>
-                                        {% endfor %}
-                                    </tr>
-                                <tbody>
-
-                                    {% for comment in answer_comments %}
-                                        {% if comment.answer_id == answer.id %}
-                                            <tr>
-                                                <td>{{ comment.submission_time }}</td>
-                                                <td>{{ comment.message }}</td>
-                                                <td>Edited {{ comment.edited_count }} time(s)</td>
-                                                <td>
-                                                    <a href="{{ url_for('update_comment_get', comment_id=comment.id) }}"><i class='far fa-edit'></i>
-                                                    </a>
-
-                                                    <a href="{{ url_for('delete_comment', comment_id=comment.id) }}"
-                                                       onclick="return confirm('Are you sure?')"><i class='far fa-trash-alt'></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        {% endif %}
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-{#                            {% endif %}#}
-                        </p>
-                    </td>
-                </tr>
-                {% endif %}
+{#                {% if answer_comments|length > 0 %}#}
+{#                <tr>#}
+{#                    <td></td>#}
+{#                    <td colspan="4">#}
+{#                        <p>#}
+{#                            <table border="1" style="margin-left: 40px">#}
+{#                                <thead><strong>COMMENTS</strong></thead>#}
+{##}
+{#                                    <tr>#}
+{#                                        {% for comment_header in comment_headers %}#}
+{#                                            <th>{{ comment_header }}</th>#}
+{#                                        {% endfor %}#}
+{#                                    </tr>#}
+{#                                <tbody>#}
+{##}
+{#                                    {% for comment in answer_comments %}#}
+{#                                        {% if comment.answer_id == answer.id %}#}
+{#                                            <tr>#}
+{#                                                <td>{{ comment.submission_time }}</td>#}
+{#                                                <td>{{ comment.message }}</td>#}
+{#                                                <td>Edited {{ comment.edited_count }} time(s)</td>#}
+{#                                                <td>#}
+{#                                                    <a href="{{ url_for('update_comment_get', comment_id=comment.id) }}"><i class='far fa-edit'></i>#}
+{#                                                    </a>#}
+{##}
+{#                                                    <a href="{{ url_for('delete_comment', comment_id=comment.id) }}"#}
+{#                                                       onclick="return confirm('Are you sure?')"><i class='far fa-trash-alt'></i>#}
+{#                                                    </a>#}
+{#                                                </td>#}
+{#                                            </tr>#}
+{#                                        {% endif %}#}
+{#                                    {% endfor %}#}
+{#                                </tbody>#}
+{#                            </table>                     #}
+{#                        </p>#}
+{#                    </td>#}
+{#                </tr>#}
+{#                {% endif %}#}
                 {% endfor %}
             </tbody>
         </table>
@@ -179,7 +159,9 @@
     </p>
 <a href="{{ url_for("question_page") }}">Back to List of questions</a>
 
+{% endblock %}
+</div>
 
-</body>
-<footer><small>The most tailored answers for Your question</small></footer>
-</html>
+{#</body>#}
+{#<footer><small>The most tailored answers for Your question</small></footer>#}
+{#</html>#}

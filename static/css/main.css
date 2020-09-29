@@ -10,13 +10,16 @@ html {
 }
 
 body {
-    height: 100vh;
+    /*height: 100vh;*/
 
-    background-image: url('../images/ocean.jpg');
+    background: fixed;
+
+    background-image: url('../images/ocean.jpg') ;
     background-repeat: no-repeat;
     background-size: cover;
 
     display: flex;
+    /*flex-direction: column;*/
     justify-content: center;
     align-items: end;
 }
@@ -29,7 +32,8 @@ body {
     border-radius: 5px;
     width: 90vw;
     max-width: 1000px;
-    height: 75vh;
+    min-height: 75vh;
+    margin-top: 12%;
     margin-bottom: 10vh;
     padding: 5%;
 
@@ -150,6 +154,7 @@ td, th {
     border: none;
     padding: 0.5rem;
 }
+
 
 
 footer {
