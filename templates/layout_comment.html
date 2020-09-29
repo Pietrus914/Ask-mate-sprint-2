@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>{% block title %}{% endblock %}</title>
-</head>
-<body>
+{% extends "index.html" %}
+
+{% block page_title %} {% endblock %}
+
+{% block content %}
     <p>
         {% block item %}{% endblock %}
     </p>
@@ -16,11 +14,9 @@
     <form {% block action %}{% endblock %} method="POST">
         <label for="comment_message">{% block label %}{% endblock %}</label><br>
         <textarea id="comment_message"  rows="7" type="text" maxlength="500" name="comment_message"
-                  placeholder="Write your comment">{% block message %}{% endblock %}</textarea><br>
+                  placeholder="Write your comment:">{% block message %}{% endblock %}</textarea><br>
         <input type="hidden" {% block hidden %}{% endblock %} ><br>
-        <button type="submit">SUBMIT</button>
+        <button class="forward" type="submit">&rarr; Submit</button>
     </form>
 
-
-</body>
-</html>
+{% endblock %}

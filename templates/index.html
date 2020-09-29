@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block page_title %}How can I answer you?{% endblock %}</title>
+    <title>{% block page_title %}How can I answer you?{% endblock %} - Question Forum</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
@@ -20,7 +20,7 @@
         <form action="{{url_for("display_search_question")}}">
 {#            <label for="search_input">Search on forum:</label>#}
             <input class="search" type="text" name="search" placeholder="Search">
-            <button type="submit" class="submit">&rarr;</button>
+            <button type="submit" class="search_arrow">&rarr;</button>
         </form>
     </div>
 {#    <h3>Last questions</h3>#}

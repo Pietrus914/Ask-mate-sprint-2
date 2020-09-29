@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 
-html {
+html, input, button {
     font-family: "Heiti SC", sans-serifserif;
     color: #444747;
 }
@@ -47,6 +47,10 @@ header {
     left: 0;
 }
 
+h3 {
+    margin-top: 5%;
+    text-transform: capitalize;
+}
 
 
 div.search {
@@ -65,6 +69,9 @@ div.file, div.url {
     display: inline-block;
 }
 
+div.file label, div.url label {
+    margin-top: 0;
+}
 
 
 input {
@@ -72,7 +79,6 @@ input {
     background-color: transparent;
     border: none;
     font-size: 16px;
-    color: #444747;
 }
 
 input.underline {
@@ -90,11 +96,11 @@ button, input[name='file']{
     color: #444747;
 }
 
-button[type="submit"] {
+button.search_arrow {
     font-size: 20px;
     float: right;
 }
-button[type="submit"]:hover {
+button.search_arrow:hover {
     font-weight: bold;
 }
 
@@ -113,6 +119,7 @@ button[type="submit"]:hover {
 label, p {
     display: block;
     margin: 15px 0 5px;
+    line-height: 1.4;
 }
 
 textarea {

@@ -1,9 +1,9 @@
 {% extends 'layout_comment.html' %}
 
-{% block title %}Update comment to {{ item_type }}{% endblock %}
+{% block page_title %}Update comment to {{ item_type }}{% endblock %}
 
 {% block item %}
-    <h1>{{ item_type }}</h1>
+    <h3>{{ item_type }}:</h3>
     <p>{{ item.message }}</p>
 {% endblock %}
 
