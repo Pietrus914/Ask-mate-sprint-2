@@ -2,6 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+{#    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">#}
+    <script src="https://kit.fontawesome.com/05de84e1ca.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            color: #444747;
+            background-image: url('/static/images/ocean.jpg');
+            {#background-repeat: no-repeat;#}
+            {#background-size: cover;#}
+            {#font-family: "Heiti SC", sans-serifserif;#}
+            {#display: flex;#}
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        i.far {
+            color : #1ee0da
+        }
+    </style>
     <title>Question</title>
 
 </head>
@@ -28,6 +47,18 @@
 
             </p>
 
+    <p>
+        <a href="{{ url_for("add_tag", question_id=question.id) }}">
+            <button type="button" name="add_tag" id="add_question_tag">ADD TAG</button></a>
+        <a href="{{ url_for("new_question_comment", question_id=question.id) }}">
+            <button type="button" name="add_comment" id="add_question_comment">ADD COMMENT</button></a>
+        <a href="{{ url_for("add_answer",question_id=question.id) }}">
+            <button type="button" name="add_answer" id="add_answer" >ADD ANSWER</button></a>
+        <a href="{{ url_for("edit_question_get",question_id=question["id"]) }}"><i class='far fa-edit'></i>
+        </a><a href="{{ url_for("delete_question", question_id = question["id"]) }}"><i class='far'>&#xf2ed</i>
+        </a><br>
+    </p>
+
             <p>
                 {% if question_comments|length > 0 %}
                 <table border="1" style="margin-left: 40px">
@@ -51,13 +82,10 @@
                                 </td>
                                 <td>
                                     <a href="{{ url_for('update_comment_get', comment_id=comment.id) }}">
-                                        <button type="button" name="update_comment"
-                                                id="update_comment">UPDATE COMMENT</button>
+                                        <i class='far fa-edit'></i>
                                     </a>
-                                </td>
-                                <td>
-                                    <a href="{{ url_for('delete_comment', comment_id=comment.id) }}">
-                                        <button type="button" onclick="return confirm('Are you sure?')">DELETE</button>
+                                    <a href="{{ url_for('delete_comment', comment_id=comment.id) }}" onclick="return confirm('Are you sure?')">
+                                        <i class='far fa-trash-alt'></i>
                                     </a>
                                 </td>
                             </tr>
@@ -66,19 +94,9 @@
                 </table>
                 {% endif %}
             </p>
+
+
     <p>
-        <a href="{{ url_for("add_tag", question_id=question.id) }}">
-            <button type="button" name="add_tag" id="add_question_tag">ADD TAG</button></a>
-        <a href="{{ url_for("new_question_comment", question_id=question.id) }}">
-            <button type="button" name="add_comment" id="add_question_comment">ADD COMMENT</button></a>
-        <a href="{{ url_for("add_answer",question_id=question.id) }}">
-            <button type="button" name="add_answer" id="add_answer" >ADD ANSWER</button></a>
-        <a href="{{ url_for("edit_question_get",question_id=question["id"]) }}">
-            <button type="button" name="edit_question" id="edit_question" >EDIT QUESTION</button></a>
-        <a href="{{ url_for("delete_question", question_id = question["id"]) }}">
-            <button type="button" name="delete_question" id="delete_question">DELETE QUESTION</button>
-    </a><br>
-    </p>
 
     {% if answers|length > 0 %}
         <table border="1" style="margin-left: 40px">
@@ -110,9 +128,8 @@
                         <a href="{{ url_for("new_answer_comment", answer_id=answer.id) }}">
                             <button type="button" name="add_comment" id="add_answer_comment">ADD COMMENT</button></a><br>
                         <a href="{{ url_for("edit_answer_get", question_id=question.id, answer_id=answer.id) }}">
-                            <button type="button" name="edit_answer" id="edit_answer">EDIT ANSWER</button></a><br>
-                        <a href="{{ url_for("delete_answer",question_id=question.id, answer_id=answer.id) }}">
-                            <button type="button" name="delete_answer" id="delete_answer" >DELETE ANSWER</button></a>
+                            <i class='far fa-edit'></i></a>
+                        <a href="{{ url_for("delete_answer",question_id=question.id, answer_id=answer.id) }}"><i class='far fa-trash-alt'></i></a>
                     </td>
                 </tr>
                 {% if answer_comments|length > 0 %}
@@ -138,14 +155,11 @@
                                                 <td>{{ comment.message }}</td>
                                                 <td>Edited {{ comment.edited_count }} time(s)</td>
                                                 <td>
-                                                    <a href="{{ url_for('update_comment_get', comment_id=comment.id) }}">
-                                                        <button type="button" name="update__comment"
-                                                            id="update_comment">UPDATE COMMENT</button>
+                                                    <a href="{{ url_for('update_comment_get', comment_id=comment.id) }}"><i class='far fa-edit'></i>
                                                     </a>
-                                                </td>
-                                                <td>
-                                                    <a href="{{ url_for('delete_comment', comment_id=comment.id) }}">
-                                                        <button type="button" onclick="return confirm('Are you sure?')">DELETE</button>
+
+                                                    <a href="{{ url_for('delete_comment', comment_id=comment.id) }}"
+                                                       onclick="return confirm('Are you sure?')"><i class='far fa-trash-alt'></i>
                                                     </a>
                                                 </td>
                                             </tr>
@@ -162,7 +176,7 @@
             </tbody>
         </table>
     {% endif %}
-
+    </p>
 <a href="{{ url_for("question_page") }}">Back to List of questions</a>
 
 
