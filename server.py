@@ -81,7 +81,7 @@ def display_question(question_id):
     answer_comments = data_manager.get_answer_comments_by_question_id(question_id)
     answers_headers = ["Votes' number", "Answer", "Submission time"]
     comment_headers = ["Submission time", "Message", "Edition counter"]
-    #question_tag = data_manager.get_tag_by_question_id(question_id)
+    question_tag = data_manager.get_tag_by_question_id(question_id)
 
     return render_template("question.html", question=question,
                            answers=answers,
@@ -89,7 +89,7 @@ def display_question(question_id):
                            question_comments=question_comments,
                            comment_headers=comment_headers,
                            answer_comments=answer_comments,
-                           #question_tag=question_tag
+                           question_tag=question_tag
                            )
 
 

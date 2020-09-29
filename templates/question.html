@@ -37,6 +37,12 @@
             {% endif %}
         {% endif %}
 
+        {% for tags in question_tag %}
+                <tr>
+                    <td>#{{ tags.name }}</td>
+                </tr>
+        {% endfor %}
+
             <p>Submission time: {{ question.submission_time }}, Numbers of views: {{ question.view_number }}</p>
 {#        <p>Submission time: {{ display_time(question.submission_time) }}, Numbers of views: {{ question.view_number }}</p>#}
             <p>Vote's number: {{ question.vote_number }}
