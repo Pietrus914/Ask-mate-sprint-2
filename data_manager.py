@@ -359,15 +359,16 @@ def add_question_tag_id(cursor: RealDictCursor, tag_id: int, question_id: int):
     cursor.execute(query)
     return
 
-'''@database_common.connection_handler
-def get_tag_by_question_id(cursor: RealDictCursor, tag_id: int):
+@database_common.connection_handler
+def get_tag_by_question_id(cursor: RealDictCursor, question_id: int):
     query = f"""
-            SELECT "name"
+            SELECT *
             FROM tag
             WHERE id IN (
-            SELECT tag_id 
-            FROM question_tag 
-            WHERE id = {tag_id})
+            SELECT tag_id
+            FROM question_tag
+            WHERE question_id = {question_id})
+            
             """
     cursor.execute(query)
-    return cursor.fetchall()'''
+    return cursor.fetchall()
