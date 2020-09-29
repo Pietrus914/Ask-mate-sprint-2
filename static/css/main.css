@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 
-html {
+html, input, button {
     font-family: "Heiti SC", sans-serifserif;
     color: #444747;
 }
@@ -26,6 +26,7 @@ body {
 }
 
 .content-wrapper {
+    align-self: flex-end;
     border-radius: 5px;
     width: 90vw;
     max-width: 1000px;
@@ -46,6 +47,10 @@ header {
     left: 0;
 }
 
+h3 {
+    margin-top: 5%;
+    text-transform: capitalize;
+}
 
 
 div.search {
@@ -64,6 +69,9 @@ div.file, div.url {
     display: inline-block;
 }
 
+div.file label, div.url label {
+    margin-top: 0;
+}
 
 
 input {
@@ -71,7 +79,6 @@ input {
     background-color: transparent;
     border: none;
     font-size: 16px;
-    color: #444747;
 }
 
 input.underline {
@@ -89,11 +96,11 @@ button, input[name='file']{
     color: #444747;
 }
 
-button[type="submit"] {
+button.search_arrow {
     font-size: 20px;
     float: right;
 }
-button[type="submit"]:hover {
+button.search_arrow:hover {
     font-weight: bold;
 }
 
@@ -112,10 +119,10 @@ button[type="submit"]:hover {
 label, p {
     display: block;
     margin: 15px 0 5px;
+    line-height: 1.4;
 }
 
 textarea {
-    /*box-sizing: border-box;*/
     background-color: transparent;
     border: 1px solid #444747;
     padding: 5px;
@@ -124,10 +131,10 @@ textarea {
     resize: none;
     overflow: auto;
     font-family: "Heiti SC", sans-serifserif;
+    font-size: 16px;
     line-height: 120%;
     color: #444747;
 }
-
 
 
 a {
@@ -139,6 +146,11 @@ a:hover {
     text-decoration: underline;
 }
 
+#header-title {
+    text-transform: capitalize;
+    text-decoration: none;
+    font-size: 36px;
+}
 
 table {
     border: 1px solid #444747;
