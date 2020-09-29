@@ -81,13 +81,16 @@ def display_question(question_id):
     answer_comments = data_manager.get_answer_comments_by_question_id(question_id)
     answers_headers = ["Votes' number", "Answer", "Submission time"]
     comment_headers = ["Submission time", "Message", "Edition counter"]
+    #question_tag = data_manager.get_tag_by_question_id(question_id)
 
     return render_template("question.html", question=question,
                            answers=answers,
                            answers_headers=answers_headers,
                            question_comments=question_comments,
                            comment_headers=comment_headers,
-                           answer_comments=answer_comments)
+                           answer_comments=answer_comments,
+                           #question_tag=question_tag
+                           )
 
 
 @app.route("/add")
@@ -254,7 +257,7 @@ def answer_vote(question_id, answer_id):
     return redirect(url_for("display_question", question_id=question_id))
 
 
-@app.route('/question/<question_id>/new-comment', methods=["GET","POST"])
+@app.route('/question/<question_id>/new-comment', methods=["GET", "POST"])
 def new_question_comment(question_id):
     if request.method == "POST":
         details = dict(request.form)
@@ -336,10 +339,12 @@ def new_answer_comment(answer_id):
 @app.route('/question/<question_id>/new-tag', methods=["GET", "POST"])
 def add_tag(question_id):
     if request.method == "POST":
-        tag_name = dict(request.form)
-        data_manager.add_question_tag(tag_name)
 
-        return redirect(url_for("display_question", question_id=question_id))
+        tag_name = dict(request.form)
+        tag_id = data_manager.add_question_tag(tag_name).get('id')
+        data_manager.add_question_tag_id(tag_id, question_id)
+
+        return redirect(url_for("display_question", question_id=question_id, tag_id=tag_id))
 
     if request.method == "GET":
         return render_template("add_tag.html", question_id=question_id)

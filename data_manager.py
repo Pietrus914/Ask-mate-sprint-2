@@ -433,6 +433,30 @@ def add_question_tag(cursor: RealDictCursor, tag_name: dict):
     query = f"""
         INSERT INTO tag ("name")
         VALUES (%(tag_message)s)
-        RETURNING id"""
+        RETURNING id
+        """
     cursor.execute(query, tag_name)
+    return cursor.fetchone()
+
+
+@database_common.connection_handler
+def add_question_tag_id(cursor: RealDictCursor, tag_id: int, question_id: int):
+    query = f"""
+        INSERT INTO question_tag (question_id, tag_id)
+        VALUES ({question_id}, {tag_id})
+        """
+    cursor.execute(query)
     return
+
+'''@database_common.connection_handler
+def get_tag_by_question_id(cursor: RealDictCursor, tag_id: int):
+    query = f"""
+            SELECT "name"
+            FROM tag
+            WHERE id IN (
+            SELECT tag_id 
+            FROM question_tag 
+            WHERE id = {tag_id})
+            """
+    cursor.execute(query)
+    return cursor.fetchall()'''
