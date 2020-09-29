@@ -26,6 +26,7 @@ body {
 }
 
 .content-wrapper {
+    align-self: flex-end;
     border-radius: 5px;
     width: 90vw;
     max-width: 1000px;
@@ -115,7 +116,6 @@ label, p {
 }
 
 textarea {
-    /*box-sizing: border-box;*/
     background-color: transparent;
     border: 1px solid #444747;
     padding: 5px;
@@ -124,10 +124,10 @@ textarea {
     resize: none;
     overflow: auto;
     font-family: "Heiti SC", sans-serifserif;
+    font-size: 16px;
     line-height: 120%;
     color: #444747;
 }
-
 
 
 a {
@@ -139,6 +139,11 @@ a:hover {
     text-decoration: underline;
 }
 
+#header-title {
+    text-transform: capitalize;
+    text-decoration: none;
+    font-size: 36px;
+}
 
 table {
     border: 1px solid #444747;
