@@ -350,5 +350,12 @@ def add_tag(question_id):
         return render_template("add_tag.html", question_id=question_id)
 
 
+@app.route('/tags/<tag_id>/delete')
+def delete_tag(tag_id):
+    question_id = data_manager.get_question_id_by_tag_id(tag_id)
+    data_manager.delete_tag(tag_id)
+    return redirect(url_for("display_question", question_id=question_id))
+
+
 if __name__ == "__main__":
     app.run()
