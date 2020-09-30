@@ -41,6 +41,9 @@
                 <tr>
                     <td>#{{ tags.name }}</td>
                 </tr>
+                <a href="{{ url_for('delete_tag', tag_id=tags.id) }}" onclick="return confirm('Are you sure?')">
+                                        <i class='far fa-trash-alt'></i>
+                </a><br>
         {% endfor %}
 
             <p>Submission time: {{ question.submission_time }}, Numbers of views: {{ question.view_number }}</p>
