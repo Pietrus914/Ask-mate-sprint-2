@@ -220,6 +220,10 @@ td, th {
     font-size: 200%;
 }
 
+.answer .comment .title_box {
+    font-size: 140%;
+}
+
 .info_row {
     display: flex;
     flex-direction: row ;
@@ -237,7 +241,7 @@ td, th {
 }
 
 .answer .info_row {
-    font-size: 90%;
+    font-size: 85%;
 }
 
 .comment .info_row {
@@ -270,9 +274,13 @@ td, th {
     margin-bottom: 0.4em;
 }
 
-.comment .far {
+.comment p {
+    margin: 0;
+}
+
+.comment .far, .tag_row .far {
     font-size: 80%;
-    margin-left: 1rem;
+    /*margin-left: 1rem;*/
 }
 
 .comment .info_row div {
@@ -289,14 +297,10 @@ td, th {
     align-items: center;
     justify-content: space-between;
     /*background-color: rgb(151, 181, 158);*/
-    font-size: 100%;
+    font-size: 90%;
     padding: 1% 0%;
     height: 2rem;
 }
-
-/*.menu_row button[type="submit"], button[type="button"] {*/
-/*    font-size: 95%;*/
-/*}*/
 
 .answer .menu_row {
     padding-left: 50%;
@@ -306,6 +310,30 @@ td, th {
     padding: 0 0 0 80%;
 
 }
+
+.tag_box {
+    display: flex;
+    border-radius: 5px;
+    background-color: rgba(245, 234, 234, 0.6);
+    margin-right: 3rem;
+}
+
+
+
+.tag_row {
+    display: flex ;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin-bottom: 0.5rem;
+    }
+
+.tag_row .tag {
+    margin-right: 0.4rem;
+}
+
+/*.tag_row div {*/
+/*    margin-right: 2rem;*/
+/*}*/
 
 
 footer {
