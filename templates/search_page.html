@@ -1,51 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Searched Questions</title>
-</head>
-<body>
-<h3>Searched Questions</h3>
+{% extends "index.html" %}
 
-    <table border="1">
-        <thead>
-            <tr>
-                {% for i in range(headers|length) %}
-                    <th>
-                        {{ headers[i] }}
-                    </th>
-                {% endfor %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for question in questions %}
-                <tr>
-                    {% for key in story_keys %}
-                        <td>
-                            {% if key == "message" %}
-                                {{ question[key][0:50] }}
-                            {% elif key == "title" %}
-                                <a href="{{url_for("display_question", question_id=question["id"]) }}">{{question[key]}}</a>
-                            {% elif key == "in_answer" %}
-                                {% if question["id"] in answers %}
-                                {% for answer in answers[question["id"]] %}
-                                    {{ answer["message"]}}
-                                    <br>
-                                {% endfor %}
-                                {% endif %}
-                            {% else %}
-                                {{ question[key] }}
-                            {% endif %}
+{% block page_title %}
+    Searched Questions
+{% endblock %}
+{% block content %}
+    {% for question in questions %}
+        <div class="question">
+            <div class="title_box">
+                <h2><a href="{{url_for("display_question", question_id=question["id"]) }}"> {{ question.title.lower().replace(search_phrase.lower(), '<span style="background-color: yellow;">{}</span>'.format(search_phrase.lower()))|safe }} </a></h2>
+            </div>
+            <div class="message_box">
+                <div class="info_row">
+                    <div>Submission time: {{ question.submission_time }}</div>
+                    <div>Numbers of views: {{ question.view_number }}</div>
+                    <div>Vote's number: {{ question.vote_number }}</div>
+                </div>
+                <p class="message">
+                        <h4>{{ question.message.lower().replace(search_phrase.lower(), '<span style="background-color: yellow;">{}</span>'.format(search_phrase.lower()))|safe}}</h4>
+                </p>
+        </div>
 
-                        </td>
-                    {% endfor %}
-                </tr>
-
+</div>
+        {% if question["id"] in answers %}
+            {% for answer in answers[question["id"]] %}
+                <div class="message_boxx">
+                    <div class="info_row">
+                        <div>Submission time: {{ answer.submission_time }}</div>
+                        <div>Vote's number: {{ answer.vote_number }}</div>
+                    </div>
+                        <p class="message"><h4>{{ answer["message"].lower().replace(search_phrase.lower(),'<span style="background-color: yellow;">{}</span>'.format(search_phrase.lower()))|safe}}</h4></p>
+                </div>
             {% endfor %}
+        {% endif %}
 
-        </tbody>
-    </table>
+    {% endfor %}
+
+
     <br>
     <a href="{{url_for("main_page") }}"><button type="button">Back to Main Page</button></a>
-</body>
-</html>
+{% endblock %}
