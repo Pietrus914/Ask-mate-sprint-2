@@ -45,14 +45,15 @@
                         {% endif %}
                 </p>
 
-
                 <div class="tag_row">
                     {% for tags in question_tag %}
-                    <div class="tag">#{{ tags.name }}</div>
-                    <div>
-                        <a href="{{ url_for('delete_tag', tag_id=tags.id) }}"
-                       onclick="return confirm('Are you sure?')">
-                        <i class='far fa-trash-alt'></i></a>
+                    <div class="tag_box">
+                        <div class="tag">#{{ tags.name }}</div>
+                        <div>
+                            <a href="{{ url_for('delete_tag', tag_id=tags.id) }}"
+                           onclick="return confirm('Are you sure?')">
+                            <i class='far fa-trash-alt'></i></a>
+                        </div>
                     </div>
                     {% endfor %}
                 </div>

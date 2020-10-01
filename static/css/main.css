@@ -295,19 +295,29 @@ td, th {
 
 }
 
+.tag_box {
+    display: flex;
+    border-radius: 5px;
+    background-color: rgba(245, 234, 234, 0.6);
+    margin-right: 3rem;
+}
+
+
+
 .tag_row {
     display: flex ;
     flex-wrap: wrap;
     justify-content: flex-start;
+    margin-bottom: 0.5rem;
     }
 
 .tag_row .tag {
     margin-right: 0.4rem;
 }
 
-.tag_row div {
-    margin-right: 2rem;
-}
+/*.tag_row div {*/
+/*    margin-right: 2rem;*/
+/*}*/
 
 
 footer {
