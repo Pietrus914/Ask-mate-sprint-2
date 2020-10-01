@@ -220,6 +220,10 @@ td, th {
     font-size: 200%;
 }
 
+.answer .comment .title_box {
+    font-size: 140%;
+}
+
 .info_row {
     display: flex;
     flex-direction: row ;
