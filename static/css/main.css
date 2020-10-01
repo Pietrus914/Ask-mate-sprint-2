@@ -262,9 +262,9 @@ td, th {
     margin-bottom: 0.4em;
 }
 
-.comment .far {
+.comment .far, .tag_row .far {
     font-size: 80%;
-    margin-left: 1rem;
+    /*margin-left: 1rem;*/
 }
 
 .comment .info_row div {
@@ -286,10 +286,6 @@ td, th {
     height: 2rem;
 }
 
-/*.menu_row button[type="submit"], button[type="button"] {*/
-/*    font-size: 95%;*/
-/*}*/
-
 .answer .menu_row {
     padding-left: 50%;
 }
@@ -297,6 +293,20 @@ td, th {
 .comment .menu_row {
     padding: 0 0 0 80%;
 
+}
+
+.tag_row {
+    display: flex ;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    }
+
+.tag_row .tag {
+    margin-right: 0.4rem;
+}
+
+.tag_row div {
+    margin-right: 2rem;
 }
 
 
