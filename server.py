@@ -338,11 +338,6 @@ def new_answer_comment(answer_id):
 
 @app.route('/question/<question_id>/new-tag', methods=["GET", "POST"])
 def add_tag(question_id):
-    if request.method == "GET":
-
-        all_tags = data_manager.get_tag_to_list()
-        return render_template("add_tag.html", question_id=question_id, all_tags=all_tags)
-
     if request.method == "POST":
 
         tag_name = dict(request.form)
@@ -351,7 +346,8 @@ def add_tag(question_id):
 
         return redirect(url_for("display_question", question_id=question_id, tag_id=tag_id))
 
-
+    if request.method == "GET":
+        return render_template("add_tag.html", question_id=question_id)
 
 
 @app.route('/tags/<tag_id>/delete')
