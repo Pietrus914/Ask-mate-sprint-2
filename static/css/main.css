@@ -237,7 +237,7 @@ td, th {
 }
 
 .answer .info_row {
-    font-size: 90%;
+    font-size: 85%;
 }
 
 .comment .info_row {
@@ -262,6 +262,10 @@ td, th {
     margin-bottom: 0.4em;
 }
 
+.comment p {
+    margin: 0;
+}
+
 .comment .far, .tag_row .far {
     font-size: 80%;
     /*margin-left: 1rem;*/
@@ -281,7 +285,7 @@ td, th {
     align-items: center;
     justify-content: space-between;
     /*background-color: rgb(151, 181, 158);*/
-    font-size: 100%;
+    font-size: 90%;
     padding: 1% 0%;
     height: 2rem;
 }
