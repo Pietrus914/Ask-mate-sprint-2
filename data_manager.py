@@ -461,3 +461,22 @@ def get_tag_by_question_id(cursor: RealDictCursor, question_id: int):
             """
     cursor.execute(query)
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_question_id_by_tag_id(cursor: RealDictCursor, tag_id: int):
+    query = f"""
+        SELECT question_id 
+        FROM question_tag
+        WHERE tag_id = {tag_id}"""
+    cursor.execute(query)
+    return cursor.fetchone()["question_id"]
+
+
+@database_common.connection_handler
+def delete_tag(cursor: RealDictCursor, tag_id: int):
+    query = f"""
+        DELETE FROM question_tag
+        WHERE tag_id = {tag_id} """
+    cursor.execute(query)
+    return
