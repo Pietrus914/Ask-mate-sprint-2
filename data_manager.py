@@ -480,3 +480,13 @@ def delete_tag(cursor: RealDictCursor, tag_id: int):
         WHERE tag_id = {tag_id} """
     cursor.execute(query)
     return
+
+
+@database_common.connection_handler
+def get_tag_to_list(cursor: RealDictCursor):
+    query = f"""
+            SELECT "name"
+            FROM tag
+            """
+    cursor.execute(query)
+    return cursor.fetchall()
