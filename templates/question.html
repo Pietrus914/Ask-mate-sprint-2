@@ -1,46 +1,5 @@
-<<<<<<< HEAD
 
-<<<<<<< HEAD
-        {% for tags in question_tag %}
-                <tr>
-                    <td>#{{ tags.name }}</td>
-                </tr>
-                    <a href="{{ url_for('delete_tag', tag_id=tags.id) }}" onclick="return confirm('Are you sure?')">
-                        <i class='far fa-trash-alt'></i>
-                </a><br>
-        {% endfor %}
 
-            <p>Submission time: {{ question.submission_time }}, Numbers of views: {{ question.view_number }}</p>
-{#        <p>Submission time: {{ display_time(question.submission_time) }}, Numbers of views: {{ question.view_number }}</p>#}
-            <p>Vote's number: {{ question.vote_number }}
-                <form action="{{ url_for("question_vote", question_id=question.id) }}" method="post">
-                    <button type="submit" id="vote_up" name = "vote_question" value="vote_up">VOTE UP</button>
-                    <button type="submit" id="vote_down" name = "vote_question" value="vote_down">VOTE DOWN</button>
-                </form>
-
-            </p>
-
-    <p>
-        <a href="{{ url_for("add_tag", question_id=question.id) }}">
-            <button type="button" name="add_tag" id="add_question_tag">ADD TAG</button></a>
-        <a href="{{ url_for("new_question_comment", question_id=question.id) }}">
-            <button type="button" name="add_comment" id="add_question_comment">ADD COMMENT</button></a>
-        <a href="{{ url_for("add_answer",question_id=question.id) }}">
-            <button type="button" name="add_answer" id="add_answer" >ADD ANSWER</button></a>
-        <a href="{{ url_for("edit_question_get",question_id=question["id"]) }}"><i class='far fa-edit'></i>
-        </a><a href="{{ url_for("delete_question", question_id = question["id"]) }}"><i class='far'>&#xf2ed</i>
-        </a><br>
-    </p>
-
-            <p>
-                {% if question_comments|length > 0 %}
-                <table border="1" style="margin-left: 40px">
-                    <thead><strong>COMMENTS</strong></thead>
-=======
->>>>>>> development
-
-=======
->>>>>>> f577ffc275c7c81a7cde703a6f9f6903470dd930
 {% extends "index.html" %}
 
 {% block page_title %}Question{% endblock %}
