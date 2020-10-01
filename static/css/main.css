@@ -258,6 +258,14 @@ td, th {
     margin-left: 4rem;
     margin-bottom: 1em;
 }
+.message_boxx {
+    background-color: rgba(233, 219, 219, 0.6);
+    border-radius: 5px;
+    padding: 1% 3% 0 3%;
+    /*border: solid 3px rgb(192, 103, 2);*/
+    margin-left: 5rem;
+    margin-bottom: 1em;
+}
 .comment .message_box {
     margin-bottom: 0.4em;
 }
