@@ -340,13 +340,15 @@ def add_tag(question_id):
     if request.method == "POST":
 
         tag_name = dict(request.form)
+
         tag_id = data_manager.add_question_tag(tag_name).get('id')
         data_manager.add_question_tag_id(tag_id, question_id)
 
         return redirect(url_for("display_question", question_id=question_id, tag_id=tag_id))
 
     if request.method == "GET":
-        return render_template("add_tag.html", question_id=question_id)
+        all_tags = data_manager.get_tag_to_list()
+        return render_template("add_tag.html", question_id=question_id, all_tags=all_tags)
 
 
 @app.route('/tags/<tag_id>/delete')
