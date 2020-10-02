@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Question List</title>
-</head>
-<body>
-    <h1>Question List</h1>
+{% extends "index.html" %}
 
+{% block page_title %}
+    Question List
+{% endblock %}
+{% block content %}
+<div>
     <table border="1">
         <thead>
             <tr>
@@ -37,10 +35,10 @@
                 </tr>
 
             {% endfor %}
-
         </tbody>
     </table>
-    <br>
-    <a href="{{url_for("add_question_get") }}"><button type="button">Add Question</button></a>
-</body>
-</html>
+</div>
+    <div>
+    <a href="{{url_for("add_question_get") }}"><button type="button" class="forward">&rarr; Add Question</button></a>
+    </div>
+{% endblock %}

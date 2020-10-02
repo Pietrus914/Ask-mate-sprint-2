@@ -32,12 +32,12 @@ def question_page():
 
 @app.route("/search")
 def display_search_question():
-    header = ["Title", "Message", "Submission Time", "Views", "Votes", "In Answer"]
-    story_key = ["title", "message", "submission_time", "view_number", "vote_number", "in_answer"]
     search_phrase = request.args.get("search")
     questions = data_manager.get_questions_by_phrase(search_phrase)
     answers = data_manager.get_answers_by_phrase(search_phrase)
     answers_test = {}
+    if len(search_phrase) == 0:
+        return redirect(url_for("main_page"))
     for answer in answers:
         if not answer["question_id"] in answers_test.keys():
             answers_test[answer["question_id"]] = [answer]
@@ -46,8 +46,7 @@ def display_search_question():
         if not answer["question_id"] in [x["id"] for x in questions]:
             questions.append(data_manager.get_question_by_id(answer["question_id"]))
 
-    return render_template("search_page.html", headers=header, questions=questions, story_keys=story_key,
-                           answers=answers_test, search_phrase=search_phrase)
+    return render_template("search_page.html", questions=questions, answers=answers_test, search_phrase=search_phrase)
 
 
 def display_time(s):
