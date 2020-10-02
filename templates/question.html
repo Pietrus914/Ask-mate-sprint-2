@@ -2,19 +2,19 @@
 
 {% extends "index.html" %}
 
-{% block page_title %}Question{% endblock %}
+{% block page_title %}{{ question.title }}{% endblock %}
 
 {% block content %}
 <div class="main_div">
     <div class="main">
 
         <div class="question">
-            <div class="title_box">
-                <div>
-                    <h2>{{ question.title }} </h2>
-                </div>
-
-            </div>
+{#            <div class="title_box">#}
+{#                <div>#}
+{#                    <h3 class="title_box">{{ question.title }} </h3>#}
+{#                </div>#}
+{##}
+{#            </div>#}
 
             <div class="message_box">
                 <div class="info_row">
@@ -118,7 +118,7 @@
 
         {% if answers|length > 0 %}
             <div class="answer">
-                <h2 class="title_box">Answers</h2>
+                <h3 class="title_box">Answers:</h3>
 
                 {% for answer in answers %}
 
@@ -206,7 +206,7 @@
             </div>
         {% endif %}
 
-                <a href="{{ url_for("question_page") }}">Back to List of questions</a>
+        <a href="{{ url_for("question_page") }}"><button type="button" class="forward">&rarr; Back to List of Questions</button></a>
 
 
     </div>
