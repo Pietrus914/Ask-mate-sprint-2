@@ -167,9 +167,16 @@ table {
     width: 100%;
     word-break: break-word;
 }
-td, th {
+th {
     border: none;
     padding: 0.5rem;
+    text-align:center;
+    white-space: nowrap;
+}
+td {
+    border: none;
+    padding: 0.5rem;
+    text-align:center;
 }
 
 .main_div {
