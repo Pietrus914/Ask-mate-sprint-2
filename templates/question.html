@@ -67,9 +67,8 @@
                         <button type="button" name="add_comment" id="add_question_comment">ADD COMMENT</button></a>
                     <a href="{{ url_for("add_answer",question_id=question.id) }}">
                         <button type="button" name="add_answer" id="add_answer" >ADD ANSWER</button></a>
-                    <a href="{{ url_for("edit_question_get",question_id=question["id"]) }}"><i class='far fa-edit'></i>
-                    </a><a href="{{ url_for("delete_question", question_id = question["id"]) }}"><i class='far'>&#xf2ed</i>
-                    </a>
+                    <a href="{{ url_for("edit_question_get",question_id=question["id"]) }}" ><i class='far fa-edit'></i></a>
+                    <a href="{{ url_for("delete_question", question_id = question["id"]) }}"><i class='far'>&#xf2ed</i></a>
                 </div>
 
 
