@@ -36,7 +36,8 @@ body {
 
     display: flex;
     flex-direction: column;
-    overflow: scroll;
+    /*overflow: scroll;*/
+    overflow: auto;
 }
 
 header {
@@ -390,3 +391,18 @@ img {
     margin: 0 auto;
 
 }
+
+
+/* w <a> data-tooltip="Edit"
+/*[data-tooltip]:before {*/
+/*    !*position : absolute;*!*/
+/*    position: relative;*/
+/*    top: 1rem;*/
+/*    right: 1rem;*/
+/*     content : attr(data-tooltip);*/
+/*     opacity : 0;*/
+/*}*/
+
+/*[data-tooltip]:hover:before {*/
+/*    opacity : 1;*/
+/*}*/
