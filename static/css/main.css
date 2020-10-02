@@ -36,7 +36,8 @@ body {
 
     display: flex;
     flex-direction: column;
-    overflow: scroll;
+    /*overflow: scroll;*/
+    overflow: auto;
 }
 
 header {
