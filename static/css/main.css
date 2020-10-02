@@ -22,7 +22,7 @@ body {
 }
 
 .content-wrapper, header, footer {
-        background-color: rgba(200, 195, 195, 0.6);
+        background-color: rgba(200, 195, 195, 0.8);
 }
 
 .content-wrapper {
@@ -101,8 +101,9 @@ button.search_arrow {
     float: right;
 }
 button.search_arrow:hover {
-    font-weight: bold;
+    font-weight: bolder;
 }
+
 
 .forward {
     margin-top: 10px;
@@ -110,6 +111,7 @@ button.search_arrow:hover {
     text-align: left;
     width: auto;
     cursor: pointer;
+    text-transform: capitalize;
 }
 .forward:hover {
     text-decoration: underline;
@@ -176,4 +178,8 @@ footer p {
     padding: 0;
     line-height: 3vh;
     font-size: 14px;
+}
+
+i.far {
+    color: #444747;
 }
