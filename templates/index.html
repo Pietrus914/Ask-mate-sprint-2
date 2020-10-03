@@ -44,7 +44,7 @@
                             {% if key == "message" %}
                                 {{ question[key][0:50] }}
                             {% elif key == "title" %}
-                                <a href="{{url_for("display_question", question_id=question["id"]) }}">{{question[key]}}</a>
+                                <a id="title_cell" href="{{url_for("display_question", question_id=question["id"]) }}">{{question[key]}}</a>
                             {% else %}
                                 {{ question[key] }}
                             {% endif %}

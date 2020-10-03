@@ -393,6 +393,15 @@ img {
 }
 
 
+#title_cell {
+    display: inline-block;
+}
+
+#title_cell::first-letter {
+    text-transform: uppercase;
+}
+
+
 /* w <a> data-tooltip="Edit"
 /*[data-tooltip]:before {*/
 /*    !*position : absolute;*!*/
@@ -405,4 +414,7 @@ img {
 
 /*[data-tooltip]:hover:before {*/
 /*    opacity : 1;*/
-/*}*/
+/*}*
+
+/
+ */
