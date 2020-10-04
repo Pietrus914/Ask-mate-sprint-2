@@ -341,9 +341,13 @@ def add_tag(question_id):
 
         tag_name = dict(request.form)
 
-        tag_id = data_manager.add_question_tag(tag_name).get('id')
-        data_manager.add_question_tag_id(tag_id, question_id)
 
+        if tag_name.get("name") != None:
+            tag_id = data_manager.add_question_tag(tag_name).get('id')
+            data_manager.add_question_tag_id(tag_id, question_id)
+        else:
+
+            data_manager.update_tag(tag_name)
         return redirect(url_for("display_question", question_id=question_id, tag_id=tag_id))
 
     if request.method == "GET":

@@ -8,7 +8,7 @@
             <label for="tag_message">Write your tag:</label><br>
             <textarea id="tag_message"  rows="1" type="text" maxlength="500" name="tag_message" placeholder="your_tag"></textarea><br>
             <p>Or select from list:</p>
-            <select id="tag_message" name="tag_message">
+            <select id="old_tag" name="old_tag">
                 {% for tags in all_tags %}
                     <option value={{ tags.id }}>{{ tags.name }}</option>
                 {% endfor %}

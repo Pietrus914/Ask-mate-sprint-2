@@ -489,3 +489,13 @@ def get_tag_to_list(cursor: RealDictCursor):
         """
     cursor.execute(query)
     return cursor.fetchall()
+
+@database_common.connection_handler
+def update_tag(cursor: RealDictCursor, tag_name: dict):
+    query = f"""
+            INSERT INTO question_tag (tag_id)
+            SELECT id
+            FROM tag
+            WHERE ("name" = %(old_tag)s)
+            """
+    cursor.execute(query, tag_name)
