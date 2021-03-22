@@ -1,3 +1,17 @@
+Technology:
+- Python
+- PostgreSQL
+- Psycopg2
+- Flask/Jinja
+- HTML/CSS
+- Flask
+
+Group project (4 people)
+
+My tasks:
+- Everything related to tags
+
+
 # AskMate (sprint 2)
 
 ## Story
